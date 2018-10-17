@@ -1,9 +1,9 @@
-# Version 0.15
+# Version 0.16
 
 Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
 Settings.WaitScanRate = 10
-Settings.ObserveScanRate = 15
+Settings.ObserveScanRate = 25
 running=True
 retreattrigger = False
 
@@ -45,7 +45,7 @@ Rmap =Region(5,305,94,82)
 Rmiddle = Region(955,534,3,3)
 Rsunbird = Region(158,62,315,245)
 Rsunbird2 = Region(202,212,22,23)
-Rsunbird3 = Region(421,233,41,14)
+Rsunbird3 = Region(426,219,33,26)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
 Rxzeichen = Region(1322,0,458,339)
@@ -139,8 +139,9 @@ while(running):
     Rend.onAppear(endofbattle, endfunktion)
     Rend.observeInBackground(FOREVER)
     while machweiter:
-        wait(0.7)
-        if machweiter and Rmyturn.exists(startIndicator):
+        wait(0.8)
+#        if machweiter and Rmyturn.exists(startIndicator):
+        if machweiter:
             if (castsunbird and (not silenced) and (machweiter)):
                 Rsunbird3.click()                    
                 if not Rcast.exists(cast):                                                   
