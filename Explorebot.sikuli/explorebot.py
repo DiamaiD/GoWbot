@@ -1,10 +1,9 @@
 Settings.MoveMouseDelay = 0.0
 Settings.MinSimilarity = 0.80
 Settings.WaitScanRate = 10
-Settings.ObserveScanRate = 5
+Settings.ObserveScanRate = 15
 running=True
 retreattrigger = False
-waitformetofinish = False
 
 def runHotkey(event):
         global running
@@ -18,7 +17,7 @@ Rfirstbomb = Region(155,319,333,251)
 Rcast = Region(903,919,116,59)
 Rmyturn = Region(286,0,62,107)
 Rmydeck = Region(164,53,312,1021)
-Rend = Region(707,413,467,307)
+Rend = Region(945,525,30,32)
 Rskip = Region(893,968,131,70)
 Rskip2 = Region(687,821,541,256)
 Rsettings = Region(1821,11,87,86)
@@ -32,17 +31,19 @@ startIndicator = Pattern("turnicon.png").exact()
 bomb = Pattern("bomb.png").similar(0.95)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
-sunbirdready2 = "sunbirdready2.png"
+sunbirdready2 = Pattern("sunbirdready2.png").similar(0.50)
+sunbirdready3 = Pattern("sunbirdready3.png").similar(0.95)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
 sunbirdreadydeath = Pattern("sunbirdreadydeath.png").similar(0.75)
-endofbattle = Pattern("endofbattle.png").similar(0.60)
+endofbattle = Pattern("endofbattle.png").similar(0.95)
 Rplayagain = Region(1222,972,248,70)
 Rmap =Region(5,305,94,82)
 Rmiddle = Region(955,534,3,3)
 Rsunbird = Region(158,62,315,245)
-Rsunbird2 = Region(157,205,85,37)
+Rsunbird2 = Region(202,212,22,23)
+Rsunbird3 = Region(404,232,42,15)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
 Rxzeichen = Region(1322,0,458,339)
@@ -51,8 +52,11 @@ Rmastery = Region(1519,316,266,508)
 Rlevelup2 = Region(1159,559,6,5)
 Renemy = Region(1390,28,150,1052)
 Rsilence = Region(151,54,80,72)
+Rdismiss = Region(1025,665,166,57)
+Renemyturn = Region(1576,0,50,112)
 silence = Pattern("silence.png").similar(0.92)
 mastery = "mastery.png"
+dismiss = "dismiss.png"
 levelup = Pattern("levelup.png").similar(0.85)
 gloryzeichen = Pattern("gloryzeichen.png").similar(0.85)
 playagain = "playagain.png"
@@ -67,34 +71,19 @@ retry = "retry.png"
 xzeichen = Pattern("xzeichen.png").similar(0.86)
 gnomebag = Pattern("gnomebag.png").similar(0.90)
 
-#def gnomefunktion(event):
-#    gnomezahl +=1
-#    event.repeat()
-
-#Renemydeck.onAppear(gnomebag, gnomefunktion)
-#Renemydeck.observe(FOREVER, background = True)
-
 leveluptrigger = False
-def levelupfunktion(event):                
-    Rlevelup.click(levelup)
+def levelupfunktion(event):
+    Rlevelup.wait(levelup, FOREVER)
+    Rlevelup.click()
     Rmastery.wait(mastery, FOREVER)        
     Rlevelup2.click()  
     wait(1)
     if not Rbattlestart.exists(tobattle):
         Rlevelup2.click()
-    event.repeat()
-    
-#Rlevelup.onAppear(levelup, levelupfunktion)
-#Rlevelup.observe(FOREVER, background = True)
 
-def neuertag(event):
-    Rerror.click()
-    wait(5)
-    Rxzeichen.click(xzeichen)
-    wait(5)
-    Rxzeichen.click(xzeichen)
-    wait(5)
-    event.repeat()
+def endfunktion(event):
+    global machweiter
+    machweiter = False
 
 errormeldung = False
 def errormeldungfunktion(event):
@@ -113,115 +102,73 @@ def silencefunktion(event):
 
 castsunbird = False
 def sunbirdfunktion(event):
-#    global sunbirdtemp
-#    sunbirdtemp = sunbirdready
     global castsunbird
-    castsunbird = True    
-    wait(3)
-    if not Rsunbird2.exists(sunbirdready2):
-        castsunbird = False
-    event.repeat()
+    #if Rsunbird2.exists(sunbirdready2):
+    castsunbird = True  
 
-def sunbirdwebfunktion(event):
-    global sunbirdtemp
-    sunbirdtemp = sunbirdreadyweb
-    global castsunbird
-    if Rsunbird.exists(sunbirdreadyweb):    
-        castsunbird = True
-    else:
-        castsunbird = False
-    event.repeat()
-
-def sunbirdentfunktion(event):
-    global sunbirdtemp
-    sunbirdtemp = sunbirdreadyent
-    global castsunbird
-    if Rsunbird.exists(sunbirdreadyent):    
-        castsunbird = True
-    else:
-        castsunbird = False
-    event.repeat()
-
-def sunbirddeathfunktion(event):
-    global sunbirdtemp
-    sunbirdtemp = sunbirdreadydeath
-    global castsunbird
-    if Rsunbird.exists(sunbirdreadydeath):    
-        castsunbird = True
-    else:
-        castsunbird = False
-    event.repeat()
-
-def sunbirdmarkfunktion(event):
-    global sunbirdtemp
-    sunbirdtemp = sunbirdreadymark
-    global castsunbird
-    if Rsunbird.exists(sunbirdreadymark):    
-        castsunbird = True
-    else:
-        castsunbird = False
-    event.repeat()
-
-Rsunbird2.onAppear(sunbirdready2, sunbirdfunktion)
-#Rsunbird.onAppear(sunbirdreadymark, sunbirdmarkfunktion)
-#Rsunbird.onAppear(sunbirdreadydeath, sunbirddeathfunktion)
-#Rsunbird.onAppear(sunbirdreadyweb, sunbirdwebfunktion)
-#Rsunbird.onAppear(sunbirdreadyent, sunbirdentfunktion)
-Rsunbird2.observe(FOREVER, background = True)
-
-#def failsafeonefunktion(event):
-#    wait(10)
-#    if Rbattlestart.exists(tobattle):
-#        Rbattlestart.click()
-#    event.repeat()
-
-#Rbattlestart.onAppear(tobattle, failsafeonefunktion)
-#Rbattlestart.observe(FOREVER, background = True)
+def petfunktion(event):
+    Rdismiss.wait(dismiss, FOREVER)
+    Rdismiss.click(dismiss)
+    wait(1)
+    Rplayagain.click(playagain)
 
 Rmiddle.click()
 wait(0.3)
 Rkingdom.click()
 wait(0.3)
 while(running):
+    castsunbird = False
     Rbattlestart.wait(tobattle, FOREVER)
-    Rbattlestart.click()
+    Rplayagain.click()
+    Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
+    Rsunbird3.observeInBackground(FOREVER)
     if errormeldung:
         Rerror.click(retry)
     Rfirstbomb.wait(bomb, FOREVER)
-    wait(0.9)
+    wait(0.7)
     Rfirstbomb.click()
     if not Rcast.exists(cast):
         Rfirstbomb.click()
     Rcast.click()
+    wait(3)
     bombzahler = 2
-    while not Rend.exists(endofbattle):
-        if Rmyturn.exists(startIndicator): 
-            if (castsunbird and not silenced):
-                try:
-                    Rsunbird.click(sunbirdready2)
-                    if not Rcast.exists(cast):
-                        try:
-                            Rsunbird.click(sunbirdready2)
-                        except FindFailed:
-                            continue
-                    Rcast.click()
-                    castsunbird = False
-                    continue
-                except FindFailed:
-                    castsunbird = False
-                    continue
+    machweiter = True
+    silenced = False
+    Rend.onAppear(endofbattle, endfunktion)
+    Rend.observeInBackground(FOREVER)
+    while machweiter:
+        wait(0.2)
+        if machweiter and Rmyturn.exists(startIndicator):
+            if (castsunbird and (not silenced) and (machweiter)):
+                Rsunbird3.click()                    
+                if not Rcast.exists(cast):                                                   
+                    Rsunbird3.click()                        
+                Rcast.click()
+                wait(3)
+                castsunbird = False
+                continue
             if bombzahler < 4:
-                try:
-                    Rmydeck.click(bomb)
-                    if not Rcast.exists(cast):
+                if machweiter:
+                    try:
                         Rmydeck.click(bomb)
-                    Rcast.click()
-                    bombzahler += 1
-                    continue
-                except FindFailed:
-                    bombzahler +=1
-                    continue
-            if Rsettings.exists(settings):
+                        if not Rcast.exists(cast):
+                            Rmydeck.click(bomb)
+                        Rcast.click()
+                        wait(3)
+                        bombzahler += 1
+                        continue
+                    except FindFailed:
+                        bombzahler += 1
+                        continue
+            if (Rsunbird3.exists(sunbirdready3) and not silenced and machweiter):
+                Rsunbird3.click()                    
+                if not Rcast.exists(cast):                                                   
+                    Rsunbird2.click()                        
+                Rcast.click()
+                wait(2)
+                continue
+            wait(1)
+            if Rsettings.exists(settings) and machweiter:
                 Rsettings.click(settings)
             else:
                 break
@@ -240,6 +187,7 @@ while(running):
                     break
             retreattrigger = True
             break
+    Rend.stopObserver()
     if retreattrigger: 
         Rmap.wait(mapsymbol, FOREVER)
         while True:
@@ -270,9 +218,22 @@ while(running):
         wait(0.3)
         retreattrigger = False
         continue
-    Rskip.wait(skip, FOREVER)
-    Rskip.click()
+    Rsunbird3.stopObserver() 
+    Rdismiss.onAppear(dismiss, petfunktion)
+    Rdismiss.observeInBackground(5)
+    Rlevelup.onAppear(levelup, levelupfunktion)
+    Rlevelup.observeInBackground(5)
+    donotskiptheskip = True
+    try:
+        Rskip.wait(skip, 20)
+    except FindFailed:
+        donotskiptheskip = False
+    if donotskiptheskip:
+        Rskip.click()
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
-    Rbattlestart.wait(tobattle, 10)
-    silenced = False
+    try:
+        Rbattlestart.wait(tobattle, 10)
+    except Failed:
+        Rplayagain.click()
+    
