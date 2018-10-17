@@ -1,4 +1,4 @@
-# Version 0.14
+# Version 0.15
 
 Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
@@ -34,7 +34,7 @@ bomb = Pattern("bomb.png").similar(0.95)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
 sunbirdready2 = Pattern("sunbirdready2.png").similar(0.50)
-sunbirdready3 = Pattern("sunbirdready3.png").similar(0.95)
+sunbirdready3 = Pattern("sunbirdready3.png").similar(0.83)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
@@ -45,7 +45,7 @@ Rmap =Region(5,305,94,82)
 Rmiddle = Region(955,534,3,3)
 Rsunbird = Region(158,62,315,245)
 Rsunbird2 = Region(202,212,22,23)
-Rsunbird3 = Region(404,232,42,15)
+Rsunbird3 = Region(421,233,41,14)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
 Rxzeichen = Region(1322,0,458,339)
