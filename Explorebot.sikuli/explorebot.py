@@ -117,6 +117,7 @@ wait(0.3)
 Rkingdom.click()
 wait(0.3)
 while(running):
+    machweiter = True
     castsunbird = False
     Rbattlestart.wait(tobattle, FOREVER)
     Rplayagain.click()
@@ -132,7 +133,6 @@ while(running):
     Rcast.click()
     wait(3)
     bombzahler = 2
-    machweiter = True
     silenced = False
     Rend.onAppear(endofbattle, endfunktion)
     Rend.observeInBackground(FOREVER)
