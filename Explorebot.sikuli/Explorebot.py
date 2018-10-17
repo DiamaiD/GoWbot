@@ -1,4 +1,4 @@
-# Version 0.13
+# Version 0.14
 
 Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
@@ -128,25 +128,25 @@ while(running):
     if errormeldung:
         Rerror.click(retry)
     Rfirstbomb.wait(bomb, FOREVER)
-    wait(0.7)
+    wait(0.9)
     Rfirstbomb.click()
     if not Rcast.exists(cast):
         Rfirstbomb.click()
     Rcast.click()
-    wait(3)
+    wait(2.5)
     bombzahler = 2
     silenced = False
     Rend.onAppear(endofbattle, endfunktion)
     Rend.observeInBackground(FOREVER)
     while machweiter:
-        wait(0.2)
+        wait(0.7)
         if machweiter and Rmyturn.exists(startIndicator):
             if (castsunbird and (not silenced) and (machweiter)):
                 Rsunbird3.click()                    
                 if not Rcast.exists(cast):                                                   
                     Rsunbird3.click()                        
                 Rcast.click()
-                wait(3)
+                wait(2.5)
                 castsunbird = False
                 continue
             if bombzahler < 4:
@@ -156,7 +156,7 @@ while(running):
                         if not Rcast.exists(cast):
                             Rmydeck.click(bomb)
                         Rcast.click()
-                        wait(3)
+                        wait(2.5)
                         bombzahler += 1
                         continue
                     except FindFailed:
