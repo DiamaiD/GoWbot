@@ -1,4 +1,4 @@
-Version 0.12
+# Version 0.12
 
 Settings.MoveMouseDelay = 0.0
 Settings.MinSimilarity = 0.80
