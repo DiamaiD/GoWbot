@@ -1,4 +1,4 @@
-# Version 0.16
+# Version 0.17
 
 Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
@@ -34,7 +34,7 @@ bomb = Pattern("bomb.png").similar(0.95)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
 sunbirdready2 = Pattern("sunbirdready2.png").similar(0.50)
-sunbirdready3 = Pattern("sunbirdready3.png").similar(0.83)
+sunbirdready3 = Pattern("sunbirdready3.png").similar(0.95)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
@@ -124,7 +124,7 @@ while(running):
     Rbattlestart.wait(tobattle, FOREVER)
     Rplayagain.click()
     Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
-    Rsunbird3.observeInBackground(FOREVER)
+    Rsunbird3.observeInBackground(14)
     if errormeldung:
         Rerror.click(retry)
     Rfirstbomb.wait(bomb, FOREVER)
@@ -140,8 +140,7 @@ while(running):
     Rend.observeInBackground(FOREVER)
     while machweiter:
         wait(0.8)
-#        if machweiter and Rmyturn.exists(startIndicator):
-        if machweiter:
+        if machweiter and Rmyturn.exists(startIndicator):
             if (castsunbird and (not silenced) and (machweiter)):
                 Rsunbird3.click()                    
                 if not Rcast.exists(cast):                                                   
@@ -221,7 +220,7 @@ while(running):
         wait(0.3)
         retreattrigger = False
         continue
-    Rsunbird3.stopObserver() 
+#    Rsunbird3.stopObserver() 
     Rdismiss.onAppear(dismiss, petfunktion)
     Rdismiss.observeInBackground(5)
     Rlevelup.onAppear(levelup, levelupfunktion)
