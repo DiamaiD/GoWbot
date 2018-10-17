@@ -1,6 +1,6 @@
-# Version 0.12
+# Version 0.13
 
-Settings.MoveMouseDelay = 0.0
+Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
 Settings.WaitScanRate = 10
 Settings.ObserveScanRate = 15
