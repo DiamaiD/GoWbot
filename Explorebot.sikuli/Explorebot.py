@@ -1,10 +1,10 @@
-# Version 0.17
+# Version 0.18
 
 Settings.MoveMouseDelay = 0.1
 Settings.MinSimilarity = 0.80
 Settings.WaitScanRate = 10
-Settings.ObserveScanRate = 25
-running=True
+Settings.ObserveScanRate = 15
+running = True
 retreattrigger = False
 
 def runHotkey(event):
@@ -83,9 +83,15 @@ def levelupfunktion(event):
     if not Rbattlestart.exists(tobattle):
         Rlevelup2.click()
 
+machweiter = True
 def endfunktion(event):
     global machweiter
     machweiter = False
+    wait(10)
+    event.repeat()
+
+Rend.onAppear(endofbattle, endfunktion)
+Rend.observeInBackground(FOREVER)
 
 errormeldung = False
 def errormeldungfunktion(event):
@@ -105,8 +111,12 @@ def silencefunktion(event):
 castsunbird = False
 def sunbirdfunktion(event):
     global castsunbird
-    #if Rsunbird2.exists(sunbirdready2):
-    castsunbird = True  
+    castsunbird = True 
+    wait(6)
+    event.repeat()
+
+Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
+Rsunbird3.observeInBackground(FOREVER)
 
 def petfunktion(event):
     Rdismiss.wait(dismiss, FOREVER)
@@ -120,11 +130,8 @@ Rkingdom.click()
 wait(0.3)
 while(running):
     machweiter = True
-    castsunbird = False
     Rbattlestart.wait(tobattle, FOREVER)
     Rplayagain.click()
-    Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
-    Rsunbird3.observeInBackground(14)
     if errormeldung:
         Rerror.click(retry)
     Rfirstbomb.wait(bomb, FOREVER)
@@ -136,8 +143,6 @@ while(running):
     wait(2.5)
     bombzahler = 2
     silenced = False
-    Rend.onAppear(endofbattle, endfunktion)
-    Rend.observeInBackground(FOREVER)
     while machweiter:
         wait(0.8)
         if machweiter and Rmyturn.exists(startIndicator):
@@ -189,7 +194,7 @@ while(running):
                     break
             retreattrigger = True
             break
-    Rend.stopObserver()
+#    Rend.stopObserver()
     if retreattrigger: 
         Rmap.wait(mapsymbol, FOREVER)
         while True:
@@ -235,7 +240,7 @@ while(running):
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
     try:
-        Rbattlestart.wait(tobattle, 10)
+        Rbattlestart.wait(tobattle, 10)    
     except Failed:
         Rplayagain.click()
     
