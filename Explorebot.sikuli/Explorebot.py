@@ -1,4 +1,4 @@
-# Version 0.22
+# Version 0.23
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -248,6 +248,10 @@ while(running):
         donotskiptheskip = False
     if donotskiptheskip:
         Rskip.click()
+    if Rdismiss.exists(dismiss,0):
+        petfunktion()
+    if Rlevelup.exists(levelup,0):
+        levelupfunktion()
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
     try:
