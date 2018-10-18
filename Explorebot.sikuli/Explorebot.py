@@ -1,4 +1,4 @@
-# Version 0.24
+# Version 0.25
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -191,6 +191,7 @@ while(running):
             #    Rcast.click()
             #    wait(2)
             #    continue
+            wait(1)
             if Rsettings.exists(settings,0) and machweiter:
                 Rsettings.click(settings)
             else:
