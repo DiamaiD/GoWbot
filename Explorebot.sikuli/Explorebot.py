@@ -1,4 +1,4 @@
-# Version 0.20
+# Version 0.21
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -30,10 +30,10 @@ tribut = Pattern("tribut.png").similar(0.80)
 Rcontinu = Region(343,817,1205,253)
 continu = Pattern("continu.png").similar(0.80)
 startIndicator = Pattern("turnicon.png").exact()
-bomb = Pattern("bomb.png").similar(0.95)
+bomb = Pattern("bomb.png").similar(0.90)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
-sunbirdready2 = Pattern("sunbirdready2.png").similar(0.87)
+sunbirdready2 = Pattern("sunbirdready2.png").similar(0.90)
 sunbirdready3 = Pattern("sunbirdready3.png").similar(0.88)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
@@ -150,7 +150,6 @@ while(running):
         Rfirstbomb.click()
     Rcast.click()
     wait(2.5)
-    bombzahler = 2
     silenced = False
     while machweiter:
         #if Rend.exists(endofbattle,0):
@@ -176,10 +175,8 @@ while(running):
                             Rmydeck.click(bomb)
                         Rcast.click()
                         wait(2.5)
-                        bombzahler += 1
                         continue
                     except FindFailed:
-                        bombzahler += 1
                         continue
             if not machweiter:
                 break
@@ -216,7 +213,7 @@ while(running):
             wait(0.2)
             if not Rend.exists(endofbattle,0):
                 break
-        if Rtribut.exists(tribut):
+        if Rtribut.exists(tribut,0):
             contbutton = False
             Rtribut.click(tribut)
             try:
