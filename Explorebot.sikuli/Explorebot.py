@@ -1,4 +1,4 @@
-# Version 0.25
+# Version 0.26
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -49,7 +49,7 @@ Rmiddle = Region(955,534,3,3)
 Rsunbird = Region(158,62,315,245)
 Rsunbird2 = Region(202,212,22,23)
 Rsunbird3 = Region(426,219,33,26)
-Rsunbird4 = Region(396,147,54,41)
+Rsunbird4 = Region(404,77,62,54)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
 Rxzeichen = Region(1322,0,458,339)
@@ -167,7 +167,6 @@ while(running):
                     Rsunbird2.click()                        
                 Rcast.click()
                 wait(2.5)
-                castsunbird = False
                 continue
             if Rmydeck.exists(bomb,0) and machweiter:
                 #if Rend.exists(endofbattle,0):
@@ -184,13 +183,13 @@ while(running):
                         continue
             if not machweiter:
                 break
-            #if (Rsunbird2.exists(sunbirdready2,0) and not silenced and machweiter):
-            #    Rsunbird2.click()                    
-            #    if not Rcast.exists(cast,1):                                                   
-            #        Rsunbird2.click()                        
-            #    Rcast.click()
-            #    wait(2)
-            #    continue
+            if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
+                Rsunbird2.click()                    
+                if not Rcast.exists(cast,1):                                                   
+                    Rsunbird2.click()                        
+                Rcast.click()
+                wait(2)
+                continue
             wait(1)
             if Rsettings.exists(settings,0) and machweiter:
                 Rsettings.click(settings)
@@ -250,13 +249,20 @@ while(running):
         Rskip.click()
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
-    if not Rbattlestart.exists(tobattle,0):
-        if Rlevelup.exists(levelup,0):
-            levelupfunktion()
-        if Rdismiss.exists(dismiss,0):
-            petfunktion()
     try:
-        Rbattlestart.wait(tobattle, 10)    
-    except Failed:
-        Rplayagain.click()
+        Rbattlestart.click(tobattle)
+    except FindFailed:
+        if not Rbattlestart.exists(tobattle,0):
+            if Rlevelup.exists(levelup,0):
+                levelupfunktion()
+                Rbattlestart.wait(tobattle, 15)
+                Rbattlestart.click()
+            if Rdismiss.exists(dismiss,0):
+                petfunktion()
+                Rbattlestart.wait(tobattle, 15)
+                Rbattlestart.click()
+            if Rplayagain.exists(playagain,0):
+                Rplayagain.click()
+                Rbattlestart.wait(tobattle, 15)
+                Rbattlestart.click()
     
