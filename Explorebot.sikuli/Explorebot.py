@@ -1,4 +1,4 @@
-# Version 0.19
+# Version 0.20
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -166,7 +166,7 @@ while(running):
                 wait(2.5)
                 castsunbird = False
                 continue
-            if bombzahler < 4 and machweiter:
+            if Rmydeck.exists(bomb,0) and machweiter:
                 #if Rend.exists(endofbattle,0):
                 #   break
                 if machweiter:
