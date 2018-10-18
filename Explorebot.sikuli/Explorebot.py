@@ -1,4 +1,4 @@
-# Version 0.23
+# Version 0.24
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -78,7 +78,7 @@ xzeichen = Pattern("xzeichen.png").similar(0.86)
 gnomebag = Pattern("gnomebag.png").similar(0.90)
 
 leveluptrigger = False
-def levelupfunktion(event):
+def levelupfunktion():
     Rlevelup.wait(levelup, FOREVER)
     Rlevelup.click()
     Rmastery.wait(mastery, FOREVER)        
@@ -125,7 +125,7 @@ def sunbirdfunktion(event):
 #Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
 #Rsunbird3.observeInBackground(FOREVER)
 
-def petfunktion(event):
+def petfunktion():
     Rdismiss.wait(dismiss, FOREVER)
     Rdismiss.click(dismiss)
     wait(1)
@@ -191,7 +191,6 @@ while(running):
             #    Rcast.click()
             #    wait(2)
             #    continue
-            wait(3)
             if Rsettings.exists(settings,0) and machweiter:
                 Rsettings.click(settings)
             else:
@@ -248,12 +247,13 @@ while(running):
         donotskiptheskip = False
     if donotskiptheskip:
         Rskip.click()
-    if Rdismiss.exists(dismiss,0):
-        petfunktion()
-    if Rlevelup.exists(levelup,0):
-        levelupfunktion()
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
+    if not Rbattlestart.exists(tobattle,0):
+        if Rlevelup.exists(levelup,0):
+            levelupfunktion()
+        if Rdismiss.exists(dismiss,0):
+            petfunktion()
     try:
         Rbattlestart.wait(tobattle, 10)    
     except Failed:
