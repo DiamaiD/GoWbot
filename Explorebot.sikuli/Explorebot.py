@@ -1,4 +1,4 @@
-# Version 0.26
+# Version 0.27
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -216,7 +216,7 @@ while(running):
             wait(0.2)
             if not Rend.exists(endofbattle,0):
                 break
-        if Rtribut.exists(tribut,0):
+        if Rtribut.exists(tribut,1):
             contbutton = False
             Rtribut.click(tribut)
             try:
@@ -231,7 +231,6 @@ while(running):
                 Rcontinu.click(continu)
             if contbutton:
                 Rcontinu.click(continu)
-        wait(0.2)
         Rmiddle.click()
         if not Rxzeichen.exists(xzeichen,0):
             Rmiddle.click()
