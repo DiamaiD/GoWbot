@@ -1,4 +1,4 @@
-# Version 0.21
+# Version 0.22
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -30,11 +30,14 @@ tribut = Pattern("tribut.png").similar(0.80)
 Rcontinu = Region(343,817,1205,253)
 continu = Pattern("continu.png").similar(0.80)
 startIndicator = Pattern("turnicon.png").exact()
+startIndicator2 = Pattern("turnicon2.png").exact()
+startIndicator3 = Pattern("turnicon3.png").exact()
 bomb = Pattern("bomb.png").similar(0.90)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
 sunbirdready2 = Pattern("sunbirdready2.png").similar(0.90)
 sunbirdready3 = Pattern("sunbirdready3.png").similar(0.88)
+sunbirdready4 = Pattern("sunbirdready4.png").similar(0.90)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
@@ -46,6 +49,7 @@ Rmiddle = Region(955,534,3,3)
 Rsunbird = Region(158,62,315,245)
 Rsunbird2 = Region(202,212,22,23)
 Rsunbird3 = Region(426,219,33,26)
+Rsunbird4 = Region(396,147,54,41)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
 Rxzeichen = Region(1322,0,458,339)
@@ -155,7 +159,7 @@ while(running):
         #if Rend.exists(endofbattle,0):
         #    break
         if Rmyturn.exists(startIndicator,0) and not Renemyturn.exists(startIndicator,0) and machweiter:
-            if Rsunbird2.exists(sunbirdready2,0) and not Rsilence.exists(silence,0) and machweiter:
+            if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
                 if Rend.exists(endofbattle,0):
                     break
                 Rsunbird3.click()                    
@@ -180,14 +184,14 @@ while(running):
                         continue
             if not machweiter:
                 break
-            if (Rsunbird2.exists(sunbirdready2,0) and not silenced and machweiter):
-                Rsunbird2.click()                    
-                if not Rcast.exists(cast,1):                                                   
-                    Rsunbird2.click()                        
-                Rcast.click()
-                wait(2)
-                continue
-            wait(1)
+            #if (Rsunbird2.exists(sunbirdready2,0) and not silenced and machweiter):
+            #    Rsunbird2.click()                    
+            #    if not Rcast.exists(cast,1):                                                   
+            #        Rsunbird2.click()                        
+            #    Rcast.click()
+            #    wait(2)
+            #    continue
+            wait(3)
             if Rsettings.exists(settings,0) and machweiter:
                 Rsettings.click(settings)
             else:
