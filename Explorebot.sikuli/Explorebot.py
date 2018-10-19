@@ -1,4 +1,4 @@
-# Version 0.33
+# Version 0.34
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -165,12 +165,14 @@ while(running):
                 if not Rcast.exists(cast,1):                                                   
                     Rsunbird2.click()                        
                 Rcast.click()
+                wait(2)
                 continue
             if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
                 Rweapon.click()                    
                 if not Rcast.exists(cast,1):                                                   
                     Rweapon.click()                        
                 Rcast.click()
+                wait(2)
                 continue
             wait(1)
             if Rsettings.exists(settings,0) and machweiter:
