@@ -1,4 +1,4 @@
-# Version 0.29
+# Version 0.30
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -264,9 +264,9 @@ while(running):
         Rbattlestart.wait(tobattle, 15)
         Rbattlestart.click()
         schongestartet = True
-    elif Rplayagain.exists(playagain,0):
-        Rplayagain.click()
-        Rbattlestart.wait(tobattle, 15)
-        Rbattlestart.click()
-        schongestartet = True
+#    elif Rplayagain.exists(playagain,0):
+#        Rplayagain.click()
+#        Rbattlestart.wait(tobattle, 15)
+#        Rbattlestart.click()
+#        schongestartet = True
     
