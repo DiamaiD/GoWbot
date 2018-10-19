@@ -1,4 +1,4 @@
-# Version 0.34
+# Version 0.35
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -29,6 +29,8 @@ Rtribut = Region(847,884,215,191)
 tribut = Pattern("tribut.png").similar(0.80)
 Rcontinu = Region(343,817,1205,253)
 continu = Pattern("continu.png").similar(0.80)
+Roffer = Region(824,29,271,93)
+offer = "offer.png"
 startIndicator = Pattern("turnicon.png").exact()
 startIndicator2 = Pattern("turnicon2.png").exact()
 startIndicator3 = Pattern("turnicon3.png").exact()
@@ -184,7 +186,7 @@ while(running):
             Rretreat.click(retreat)
             if not Ryes.exists(yes):
                     Rretreat.click(retreat)
-            wait(0.2)
+            wait(0.5)
             Ryes.click(yes)
             if not Rmap.exists(mapsymbol,1):
                 try:
@@ -194,27 +196,25 @@ while(running):
                     break
             retreattrigger = True
             break
-    if retreattrigger: 
+    if retreattrigger:
         Rmap.wait(mapsymbol, FOREVER)
+        wait(0.2)
         while True:
-            wait(0.2)
             if not Rend.exists(endofbattle,0):
                 break
+            wait(0.2)
         if Rtribut.exists(tribut,1):
-            contbutton = False
-            Rtribut.click(tribut)
-            try:
-                Rskip2.wait(skip, 10)
-                Rskip2.click(skip)
-                skipped = True
-            except FindFailed:
-                Rtribut.click(tribut)
-                wait(10)
-                contbutton = True
-            if skipped:
-                Rcontinu.click(continu)
-            if contbutton:
-                Rcontinu.click(continu)
+            Rtribut.click()
+            if Rskip2.exists(skip,10):
+                Rskip.click()
+                wait(0.4)
+                if Rskip2.exists(skip,0):
+                    Rskip.click() 
+            if Rcontinu.exists(continu,10):
+                Rcontinu.click()
+                wait(0.4)
+                if Rcontinu.exists(continu,0):
+                    Rcontinu.click()
         Rmiddle.click()
         if not Rxzeichen.exists(xzeichen,0):
             Rmiddle.click()
