@@ -1,4 +1,4 @@
-# Version 0.32
+# Version 0.33
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -32,9 +32,10 @@ continu = Pattern("continu.png").similar(0.80)
 startIndicator = Pattern("turnicon.png").exact()
 startIndicator2 = Pattern("turnicon2.png").exact()
 startIndicator3 = Pattern("turnicon3.png").exact()
-bomb = Pattern("bomb.png").exact()
-bomb2 = Pattern("bomb2.png").exact()
-bomb3 = Pattern("bomb3.png").exact()
+bomb = "bomb.png"
+bomb2 = Pattern("bomb.png").similar(0.90)
+bomb3 = Pattern("bomb2.png").similar(0.90)
+bomb4 = Pattern("bomb3.png").similar(0.90)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
 sunbirdready2 = Pattern("sunbirdready2.png").similar(0.90)
@@ -63,9 +64,9 @@ Rsilence = Region(151,54,80,72)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(165,834,307,239)
-weaponready = Pattern("weaponready.png").similar(0.93)
-weaponready2 = Pattern("weaponready2.png").similar(0.94)
-weaponready3 = Pattern("weaponready3.png").similar(0.93)
+weaponready = Pattern("weaponready.png").similar(0.85)
+weaponready2 = Pattern("weaponready2.png").similar(0.85)
+weaponready3 = Pattern("weaponready3.png").similar(0.85)
 silence = Pattern("silence.png").similar(0.92)
 mastery = "mastery.png"
 dismiss = "dismiss.png"
@@ -146,12 +147,12 @@ while(running):
                 Rcast.click()
                 wait(2.5)
                 continue
-            if Rmydeck.exists(bomb3,0) and machweiter:
+            if Rmydeck.exists(bomb,0) and machweiter:
                 if machweiter:
                     try:
-                        Rmydeck.click(bomb3)
+                        Rmydeck.click(bomb)
                         if not Rcast.exists(cast,1):
-                            Rmydeck.click(bomb3)
+                            Rmydeck.click(bomb)
                         Rcast.click()
                         wait(2.5)
                         continue
