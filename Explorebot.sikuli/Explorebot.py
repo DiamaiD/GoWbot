@@ -240,7 +240,7 @@ while(running):
         Rkingdom.click()                
         wait(0.3)
         retreattrigger = False
-        schongestartet = True
+        schongestartet = False
         continue
     donotskiptheskip = True
     try:
