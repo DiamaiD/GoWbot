@@ -1,4 +1,4 @@
-# Version 0.31
+# Version 0.32
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -32,7 +32,9 @@ continu = Pattern("continu.png").similar(0.80)
 startIndicator = Pattern("turnicon.png").exact()
 startIndicator2 = Pattern("turnicon2.png").exact()
 startIndicator3 = Pattern("turnicon3.png").exact()
-bomb = Pattern("bomb.png").similar(0.90)
+bomb = Pattern("bomb.png").exact()
+bomb2 = Pattern("bomb2.png").exact()
+bomb3 = Pattern("bomb3.png").exact()
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
 sunbirdready2 = Pattern("sunbirdready2.png").similar(0.90)
@@ -60,6 +62,10 @@ Renemy = Region(1390,28,150,1052)
 Rsilence = Region(151,54,80,72)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
+Rweapon = Region(165,834,307,239)
+weaponready = Pattern("weaponready.png").similar(0.93)
+weaponready2 = Pattern("weaponready2.png").similar(0.94)
+weaponready3 = Pattern("weaponready3.png").similar(0.93)
 silence = Pattern("silence.png").similar(0.92)
 mastery = "mastery.png"
 dismiss = "dismiss.png"
@@ -87,8 +93,6 @@ def levelupfunktion():
     if not Rbattlestart.exists(tobattle):
         Rlevelup2.click()
 
-#Rlevelup.onAppear(levelup, levelupfunktion)
-#Rlevelup.observeInBackground(FOREVER)
 
 machweiter = True
 def endfunktion(event):
@@ -99,31 +103,6 @@ def endfunktion(event):
 
 Rend.onAppear(endofbattle, endfunktion)
 Rend.observeInBackground(FOREVER)
-
-errormeldung = False
-def errormeldungfunktion(event):
-    Rerror.click(retry)
-    event.repeat()
-#Rerror.onAppear(retry, errormeldungfunktion)
-#Rerror.observe(FOREVER, background = True)
-
-silenced = False
-def silencefunktion(event):
-    global silenced
-    silenced = True
-    event.repeat()
-#Rsilence.onAppear(silence, silencefunktion)
-#Rsilence.observe(FOREVER, background = True)
-
-castsunbird = False
-def sunbirdfunktion(event):
-    global castsunbird
-    castsunbird = True 
-    wait(6)
-    event.repeat()
-
-#Rsunbird3.onAppear(sunbirdready3, sunbirdfunktion)
-#Rsunbird3.observeInBackground(FOREVER)
 
 def petfunktion():
     Rdismiss.wait(dismiss, FOREVER)
@@ -157,8 +136,6 @@ while(running):
     wait(2.5)
     silenced = False
     while machweiter:
-        #if Rend.exists(endofbattle,0):
-        #    break
         if Rmyturn.exists(startIndicator,0) and not Renemyturn.exists(startIndicator,0) and machweiter:
             if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
                 if Rend.exists(endofbattle,0):
@@ -169,14 +146,12 @@ while(running):
                 Rcast.click()
                 wait(2.5)
                 continue
-            if Rmydeck.exists(bomb,0) and machweiter:
-                #if Rend.exists(endofbattle,0):
-                #   break
+            if Rmydeck.exists(bomb3,0) and machweiter:
                 if machweiter:
                     try:
-                        Rmydeck.click(bomb)
+                        Rmydeck.click(bomb3)
                         if not Rcast.exists(cast,1):
-                            Rmydeck.click(bomb)
+                            Rmydeck.click(bomb3)
                         Rcast.click()
                         wait(2.5)
                         continue
@@ -189,7 +164,12 @@ while(running):
                 if not Rcast.exists(cast,1):                                                   
                     Rsunbird2.click()                        
                 Rcast.click()
-                wait(2)
+                continue
+            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
+                Rweapon.click()                    
+                if not Rcast.exists(cast,1):                                                   
+                    Rweapon.click()                        
+                Rcast.click()
                 continue
             wait(1)
             if Rsettings.exists(settings,0) and machweiter:
@@ -241,6 +221,8 @@ while(running):
         retreattrigger = False
         schongestartet = False
         continue
+    if not running:
+        break
     try:
         Rskip.wait(skip, 5)
     except FindFailed:
