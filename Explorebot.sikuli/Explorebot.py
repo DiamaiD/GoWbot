@@ -1,4 +1,4 @@
-# Version 0.28
+# Version 0.29
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -240,6 +240,7 @@ while(running):
         Rkingdom.click()                
         wait(0.3)
         retreattrigger = False
+        schongestartet = True
         continue
     donotskiptheskip = True
     try:
