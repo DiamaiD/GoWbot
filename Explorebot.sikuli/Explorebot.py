@@ -1,4 +1,4 @@
-# Version 0.27
+# Version 0.28
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -141,10 +141,12 @@ Rmiddle.click()
 wait(0.3)
 Rkingdom.click()
 wait(0.3)
+schongestartet = False
 while(running):
     machweiter = True
-    Rbattlestart.wait(tobattle, FOREVER)
-    Rplayagain.click()
+    if not schongestartet:
+        Rbattlestart.wait(tobattle, FOREVER)
+        Rplayagain.click()
     if errormeldung:
         Rerror.click(retry)
     Rfirstbomb.wait(bomb, FOREVER)
@@ -248,20 +250,22 @@ while(running):
         Rskip.click()
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
-    try:
+    schongestartet = False
+    if Rbattlestart.exists(tobattle,1):
         Rbattlestart.click(tobattle)
-    except FindFailed:
-        if not Rbattlestart.exists(tobattle,0):
-            if Rlevelup.exists(levelup,0):
-                levelupfunktion()
-                Rbattlestart.wait(tobattle, 15)
-                Rbattlestart.click()
-            if Rdismiss.exists(dismiss,0):
-                petfunktion()
-                Rbattlestart.wait(tobattle, 15)
-                Rbattlestart.click()
-            if Rplayagain.exists(playagain,0):
-                Rplayagain.click()
-                Rbattlestart.wait(tobattle, 15)
-                Rbattlestart.click()
+        if Rdismiss.exists(dismiss,0):
+            petfunktion()
+            Rbattlestart.wait(tobattle, 15)
+            Rbattlestart.click()
+        schongestartet = True
+    elif Rlevelup.exists(levelup,0):
+        levelupfunktion()
+        Rbattlestart.wait(tobattle, 15)
+        Rbattlestart.click()
+        schongestartet = True
+    elif Rplayagain.exists(playagain,0):
+        Rplayagain.click()
+        Rbattlestart.wait(tobattle, 15)
+        Rbattlestart.click()
+        schongestartet = True
     
