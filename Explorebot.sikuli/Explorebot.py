@@ -1,4 +1,4 @@
-# Version 0.30
+# Version 0.31
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -58,7 +58,7 @@ Rmastery = Region(1519,316,266,508)
 Rlevelup2 = Region(1159,559,6,5)
 Renemy = Region(1390,28,150,1052)
 Rsilence = Region(151,54,80,72)
-Rdismiss = Region(1025,665,166,57)
+Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 silence = Pattern("silence.png").similar(0.92)
 mastery = "mastery.png"
@@ -129,12 +129,6 @@ def petfunktion():
     Rdismiss.wait(dismiss, FOREVER)
     Rdismiss.click(dismiss)
     wait(1)
-    Rplayagain.click(playagain)
-    wait(3600)
-    event.repeat()
-
-#Rdismiss.onAppear(dismiss, petfunktion) 
-#Rdismiss.observeInBackground(FOREVER)
 
 
 Rmiddle.click()
@@ -147,9 +141,14 @@ while(running):
     if not schongestartet:
         Rbattlestart.wait(tobattle, FOREVER)
         Rplayagain.click()
-    if errormeldung:
-        Rerror.click(retry)
-    Rfirstbomb.wait(bomb, FOREVER)
+    try:
+        Rfirstbomb.wait(bomb, 10)
+    except FindFailed:
+        while True:
+            if Rerror.exists(retry,0):
+                Rerror.click(retry)
+            if Rfirstbomb.exists(bomb,0):
+                break
     Renemyturn.waitVanish(startIndicator,5)
     Rfirstbomb.click()
     if not Rcast.exists(cast,1):
@@ -242,31 +241,29 @@ while(running):
         retreattrigger = False
         schongestartet = False
         continue
-    donotskiptheskip = True
     try:
-        Rskip.wait(skip, 10)
+        Rskip.wait(skip, 5)
     except FindFailed:
-        donotskiptheskip = False
-    if donotskiptheskip:
+        while True:
+            if Rerror.exists(retry,0):
+                Rerror.click(retry)
+            if Rskip.exists(skip,0):
+                break
+            if Rplayagain.exists(playagain,0):
+                break
+    if Rskip.exists(skip,0):
         Rskip.click()
     Rplayagain.wait(playagain, FOREVER)
+    if Rdismiss.exists(dismiss,0):
+        petfunktion()
     Rplayagain.click()
     schongestartet = False
     if Rbattlestart.exists(tobattle,1):
         Rbattlestart.click(tobattle)
-        if Rdismiss.exists(dismiss,0):
-            petfunktion()
-            Rbattlestart.wait(tobattle, 15)
-            Rbattlestart.click()
         schongestartet = True
     elif Rlevelup.exists(levelup,0):
         levelupfunktion()
         Rbattlestart.wait(tobattle, 15)
         Rbattlestart.click()
         schongestartet = True
-#    elif Rplayagain.exists(playagain,0):
-#        Rplayagain.click()
-#        Rbattlestart.wait(tobattle, 15)
-#        Rbattlestart.click()
-#        schongestartet = True
     
