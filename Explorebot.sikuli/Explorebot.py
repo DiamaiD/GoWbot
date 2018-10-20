@@ -1,4 +1,4 @@
-# Version 0.36
+# Version 0.37
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -123,7 +123,6 @@ while(running):
     if not schongestartet:
         Rbattlestart.wait(tobattle, FOREVER)
         Rplayagain.click()
-    wait(0.5)
     try:
         Rfirstbomb.wait(bomb, 10)
     except FindFailed:
@@ -244,6 +243,8 @@ while(running):
     if not Rbattlestart.exists(tobattle,2):
         if Rdismiss.exists(dismiss,0):
             petfunktion()
+            if Rplayagain.exists(playagain,2):
+                Rplayagain.click()
     schongestartet = False
     if Rbattlestart.exists(tobattle,1):
         Rbattlestart.click(tobattle)
