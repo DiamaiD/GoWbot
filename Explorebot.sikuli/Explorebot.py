@@ -1,4 +1,4 @@
-# Version 0.38
+# Version 0.39
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -102,7 +102,7 @@ machweiter = True
 def endfunktion(event):
     global machweiter
     machweiter = False
-    wait(10)
+    wait(7)
     event.repeat()
 
 Rend.onAppear(endofbattle, endfunktion)
@@ -253,6 +253,7 @@ while(running):
                 break
     if Rskip.exists(skip,0):
         Rskip.click()
+        wait(0.1)
     if Rsettings.exists(settings,0):
         Rsettings.click(settings)
         if not Rretreat.exists(retreat,1):
