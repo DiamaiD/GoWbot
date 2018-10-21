@@ -1,4 +1,4 @@
-# Version 0.37
+# Version 0.38
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -63,6 +63,7 @@ Rmastery = Region(1519,316,266,508)
 Rlevelup2 = Region(1159,559,6,5)
 Renemy = Region(1390,28,150,1052)
 Rsilence = Region(151,54,80,72)
+Rsilencebomb = Region(150,288,79,609)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(165,834,307,239)
@@ -112,6 +113,42 @@ def petfunktion():
     Rdismiss.click(dismiss)
     wait(1)
 
+retreatet = False
+def retreatfunktion():
+    global retreattrigger
+    global retreatet
+    global schongestartet
+    if retreattrigger:
+        Rmap.wait(mapsymbol, FOREVER)
+        wait(0.2)
+        while True:
+            if Rxzeichen.exists(xzeichen,0):
+                Rxzeichen.click(xzeichen)
+            if not Rend.exists(endofbattle,0):
+                break
+            wait(0.2)
+        if Rtribut.exists(tribut,1):
+            Rtribut.click()
+            if Rskip2.exists(skip,10):
+                Rskip.click()
+                wait(0.4)
+                if Rskip2.exists(skip,0):
+                    Rskip.click() 
+            if Rcontinu.exists(continu,10):
+                Rcontinu.click()
+                wait(0.4)
+                if Rcontinu.exists(continu,0):
+                    Rcontinu.click()
+        Rmiddle.click()
+        if not Rxzeichen.exists(xzeichen,0):
+            Rmiddle.click()
+        wait(0.3)
+        Rkingdom.click()                
+        wait(0.3)
+        retreattrigger = False
+        schongestartet = False
+        retreatet = True
+
 
 Rmiddle.click()
 wait(0.3)
@@ -119,6 +156,7 @@ Rkingdom.click()
 wait(0.3)
 schongestartet = False
 while(running):
+    retreatet = False
     machweiter = True
     if not schongestartet:
         Rbattlestart.wait(tobattle, FOREVER)
@@ -137,6 +175,8 @@ while(running):
         Rfirstbomb.click()
     Rcast.click()
     wait(2.5)
+    if Rsettings.exists(settings,0):
+        machweiter = True
     silenced = False
     while machweiter:
         if Rmyturn.exists(startIndicator,0) and not Renemyturn.exists(startIndicator,0) and machweiter:
@@ -149,7 +189,7 @@ while(running):
                 Rcast.click()
                 wait(2.5)
                 continue
-            if Rmydeck.exists(bomb,0) and machweiter:
+            if Rmydeck.exists(bomb,0) and machweiter and not Rsilencebomb.exists(silence,0):
                 if machweiter:
                     try:
                         Rmydeck.click(bomb)
@@ -196,33 +236,8 @@ while(running):
                     break
             retreattrigger = True
             break
-    if retreattrigger:
-        Rmap.wait(mapsymbol, FOREVER)
-        wait(0.2)
-        while True:
-            if not Rend.exists(endofbattle,0):
-                break
-            wait(0.2)
-        if Rtribut.exists(tribut,1):
-            Rtribut.click()
-            if Rskip2.exists(skip,10):
-                Rskip.click()
-                wait(0.4)
-                if Rskip2.exists(skip,0):
-                    Rskip.click() 
-            if Rcontinu.exists(continu,10):
-                Rcontinu.click()
-                wait(0.4)
-                if Rcontinu.exists(continu,0):
-                    Rcontinu.click()
-        Rmiddle.click()
-        if not Rxzeichen.exists(xzeichen,0):
-            Rmiddle.click()
-        wait(0.3)
-        Rkingdom.click()                
-        wait(0.3)
-        retreattrigger = False
-        schongestartet = False
+    retreatfunktion()
+    if retreatet:
         continue
     if not running:
         break
@@ -238,6 +253,24 @@ while(running):
                 break
     if Rskip.exists(skip,0):
         Rskip.click()
+    if Rsettings.exists(settings,0):
+        Rsettings.click(settings)
+        if not Rretreat.exists(retreat,1):
+            Rsettings.click(settings)
+        Rretreat.click(retreat)
+        if not Ryes.exists(yes):
+            Rretreat.click(retreat)
+        wait(0.5)
+        Ryes.click(yes)
+        if not Rmap.exists(mapsymbol,1):                
+            try:
+                Ryes.click(yes)
+            except FindFailed:
+                retreattrigger = True
+        retreattrigger = True
+    retreatfunktion()
+    if retreatet:
+        continue
     Rplayagain.wait(playagain, FOREVER)
     Rplayagain.click()
     if not Rbattlestart.exists(tobattle,2):
