@@ -208,7 +208,7 @@ while(running):
                                 continue
                             Rmydeck.click(bomb)
                         Rcast.click()
-                        wait(0.5)
+                        wait(2.5)
                         continue
                     except FindFailed:
                         continue
