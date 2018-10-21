@@ -280,7 +280,7 @@ while(running):
             if Rplayagain.exists(playagain,2):
                 Rplayagain.click()
     schongestartet = False
-    if (tributabholen % 90) == 1:
+    if (tributabholen % 30) == 15:
         if Rbattlestart.exists(tobattle,1):
             type(Key.ESC)
             retreattrigger = True
