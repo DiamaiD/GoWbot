@@ -1,4 +1,4 @@
-# Version 0.41
+# Version 0.42
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -127,7 +127,7 @@ def retreattriggerfunktion():
         wait(0.5)
         if Ryes.exists(yes,1):
             Ryes.click(yes)
-        if not Rmap.exists(mapsymbol,1):                                
+        if not Rmap.exists(mapsymbol,1) and Ryes.exists(yes,1):                                
             Ryes.click(yes)
         global retreattrigger
         retreattrigger = True
@@ -137,6 +137,7 @@ def retreatfunktion():
     global retreattrigger
     global retreatet
     global schongestartet
+    global tributabholen
     if retreattrigger:
         Rmap.wait(mapsymbol, FOREVER)
         wait(0.2)
@@ -164,6 +165,7 @@ def retreatfunktion():
         wait(0.3)
         Rkingdom.click()                
         wait(0.3)
+        tributabholen = 0
         retreattrigger = False
         schongestartet = False
         retreatet = True
@@ -280,7 +282,7 @@ while(running):
             if Rplayagain.exists(playagain,2):
                 Rplayagain.click()
     schongestartet = False
-    if (tributabholen % 60) == 45:
+    if tributabholen > 45:
         if Rbattlestart.exists(tobattle,1):
             type(Key.ESC)
             retreattrigger = True
