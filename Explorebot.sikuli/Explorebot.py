@@ -1,4 +1,4 @@
-# Version 0.40
+# Version 0.41
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -115,6 +115,23 @@ def petfunktion():
     Rdismiss.click(dismiss)
     wait(1)
 
+def retreattriggerfunktion():        
+    if Rsettings.exists(settings,0):        
+        Rsettings.click(settings)        
+        if not Rretreat.exists(retreat,1):            
+            Rsettings.click(settings)        
+        if Rretreat.exists(retreat,1):
+            Rretreat.click(retreat)        
+        if not Ryes.exists(yes,1):            
+            Rretreat.click(retreat)        
+        wait(0.5)
+        if Ryes.exists(yes,1):
+            Ryes.click(yes)
+        if not Rmap.exists(mapsymbol,1):                                
+            Ryes.click(yes)
+        global retreattrigger
+        retreattrigger = True
+
 retreatet = False
 def retreatfunktion():
     global retreattrigger
@@ -157,7 +174,9 @@ wait(0.3)
 Rkingdom.click()
 wait(0.3)
 schongestartet = False
+tributabholen = 0
 while(running):
+    tributabholen += 1
     retreatet = False
     machweiter = True
     if not schongestartet:
@@ -229,24 +248,7 @@ while(running):
                 wait(2)
                 continue
             wait(1)
-            if Rsettings.exists(settings,0) and machweiter:
-                Rsettings.click(settings)
-            else:
-                break
-            if not Rretreat.exists(retreat,1):
-                    Rsettings.click(settings)
-            Rretreat.click(retreat)
-            if not Ryes.exists(yes):
-                    Rretreat.click(retreat)
-            wait(0.5)
-            Ryes.click(yes)
-            if not Rmap.exists(mapsymbol,1):
-                try:
-                    Ryes.click(yes)
-                except FindFailed:
-                    retreattrigger = True
-                    break
-            retreattrigger = True
+            retreattriggerfunktion()
             break
     retreatfunktion()
     if retreatet:
@@ -266,21 +268,7 @@ while(running):
     if Rskip.exists(skip,0):
         Rskip.click()
         wait(0.1)
-    if Rsettings.exists(settings,0):
-        Rsettings.click(settings)
-        if not Rretreat.exists(retreat,1):
-            Rsettings.click(settings)
-        Rretreat.click(retreat)
-        if not Ryes.exists(yes):
-            Rretreat.click(retreat)
-        wait(0.5)
-        Ryes.click(yes)
-        if not Rmap.exists(mapsymbol,1):                
-            try:
-                Ryes.click(yes)
-            except FindFailed:
-                retreattrigger = True
-        retreattrigger = True
+    retreattriggerfunktion()
     retreatfunktion()
     if retreatet:
         continue
@@ -292,6 +280,11 @@ while(running):
             if Rplayagain.exists(playagain,2):
                 Rplayagain.click()
     schongestartet = False
+    if (tributabholen % 90) == 1:
+        if Rbattlestart.exists(tobattle,1):
+            type(Key.ESC)
+            retreattrigger = True
+            retreatfunktion()
     if Rbattlestart.exists(tobattle,1):
         Rbattlestart.click(tobattle)
         schongestartet = True
