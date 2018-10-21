@@ -1,4 +1,4 @@
-# Version 0.39
+# Version 0.40
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -67,6 +67,7 @@ Rsilencebomb = Region(150,288,79,609)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(165,834,307,239)
+Rnervnicht = Region(167,15,4,3)
 weaponready = Pattern("weaponready.png").similar(0.85)
 weaponready2 = Pattern("weaponready2.png").similar(0.85)
 weaponready3 = Pattern("weaponready3.png").similar(0.85)
@@ -80,7 +81,8 @@ skip = "skip.png"
 settings = "settings.png"
 retreat = "retreat.png"
 yes = "yes.png"
-cast = "cast.png"
+cast = Pattern("cast.png").exact()
+greycast = Pattern("greycast.png").exact()
 mapsymbol = "mapsymbol.png"
 tobattle = "tobattle.png"
 retry = "retry.png"
@@ -184,7 +186,12 @@ while(running):
                 if Rend.exists(endofbattle,0):
                     break
                 Rsunbird3.click()                    
-                if not Rcast.exists(cast,1):                                                   
+                if not Rcast.exists(cast,0.3):
+                    if Rcast.exists(greycast,0):
+                        Rnervnicht.click()
+                        Rnervnicht.click()
+                        wait(0.1)
+                        continue
                     Rsunbird2.click()                        
                 Rcast.click()
                 wait(2.5)
@@ -193,10 +200,15 @@ while(running):
                 if machweiter:
                     try:
                         Rmydeck.click(bomb)
-                        if not Rcast.exists(cast,1):
+                        if not Rcast.exists(cast,0.3):
+                            if Rcast.exists(greycast,0):
+                                Rnervnicht.click()
+                                Rnervnicht.click()
+                                wait(0.1)
+                                continue
                             Rmydeck.click(bomb)
                         Rcast.click()
-                        wait(2.5)
+                        wait(0.5)
                         continue
                     except FindFailed:
                         continue
