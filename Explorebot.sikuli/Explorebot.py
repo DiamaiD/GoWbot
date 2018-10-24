@@ -1,4 +1,4 @@
-# Version 0.42
+# Version 0.43
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -35,14 +35,14 @@ startIndicator = Pattern("turnicon.png").exact()
 startIndicator2 = Pattern("turnicon2.png").exact()
 startIndicator3 = Pattern("turnicon3.png").exact()
 bomb = "bomb.png"
-bomb2 = Pattern("bomb.png").similar(0.90)
-bomb3 = Pattern("bomb2.png").similar(0.90)
-bomb4 = Pattern("bomb3.png").similar(0.90)
+bomb2 = Pattern("bomb.png").similar(0.95)
+bomb3 = Pattern("bomb2.png").similar(0.95)
+bomb4 = Pattern("bomb3.png").similar(0.95)
 sunbird = Pattern("sunbird.png").similar(0.90)
 sunbirdready = Pattern("sunbirdready.png").similar(0.90)
-sunbirdready2 = Pattern("sunbirdready2.png").similar(0.90)
-sunbirdready3 = Pattern("sunbirdready3.png").similar(0.88)
-sunbirdready4 = Pattern("sunbirdready4.png").similar(0.90)
+sunbirdready2 = Pattern("sunbirdready2.png").similar(0.95)
+sunbirdready3 = Pattern("sunbirdready3.png").similar(0.93)
+sunbirdready4 = Pattern("sunbirdready4.png").similar(0.95)
 sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
@@ -68,7 +68,6 @@ Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(165,834,307,239)
 Rnervnicht = Region(167,15,4,3)
-weaponready = Pattern("weaponready.png").similar(0.85)
 weaponready2 = Pattern("weaponready2.png").similar(0.85)
 weaponready3 = Pattern("weaponready3.png").similar(0.85)
 silence = Pattern("silence.png").similar(0.92)
@@ -127,8 +126,11 @@ def retreattriggerfunktion():
         wait(0.5)
         if Ryes.exists(yes,1):
             Ryes.click(yes)
-        if not Rmap.exists(mapsymbol,1) and Ryes.exists(yes,1):                                
-            Ryes.click(yes)
+        if not Rmap.exists(mapsymbol,1) and Ryes.exists(yes,0):
+            try:
+                Ryes.click(yes)
+            except FindFailed:
+                pass
         global retreattrigger
         retreattrigger = True
 
@@ -139,12 +141,14 @@ def retreatfunktion():
     global schongestartet
     global tributabholen
     if retreattrigger:
-        Rmap.wait(mapsymbol, FOREVER)
+        Rmap.exists(mapsymbol, 5)
+        if not Rmap.exists(mapsymbol, 0) and Rxzeichen.exists(xzeichen,0):
+            Rxzeichen.click(xzeichen)    
         wait(0.2)
         while True:
             if Rxzeichen.exists(xzeichen,0):
                 Rxzeichen.click(xzeichen)
-            if not Rend.exists(endofbattle,0):
+            if not Rend.exists(endofbattle,0) and not Rxzeichen.exists(xzeichen,0):
                 break
             wait(0.2)
         if Rtribut.exists(tribut,1):
@@ -242,13 +246,13 @@ while(running):
                 Rcast.click()
                 wait(2)
                 continue
-            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
-                Rweapon.click()                    
-                if not Rcast.exists(cast,1):                                                   
-                    Rweapon.click()                        
-                Rcast.click()
-                wait(2)
-                continue
+#            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
+#                Rweapon.click()                    
+#                if not Rcast.exists(cast,1):                                                   
+#                    Rweapon.click()                        
+#                Rcast.click()
+#                wait(2)
+#                continue
             wait(1)
             retreattriggerfunktion()
             break
