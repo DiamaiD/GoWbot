@@ -1,4 +1,4 @@
-# Version 0.43
+# Version 0.44
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -254,7 +254,8 @@ while(running):
 #                wait(2)
 #                continue
             wait(1)
-            retreattriggerfunktion()
+            if machweiter:
+                retreattriggerfunktion()
             break
     retreatfunktion()
     if retreatet:
