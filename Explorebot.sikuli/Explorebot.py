@@ -1,4 +1,4 @@
-# Version 0.44
+# Version 0.45
 
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
@@ -115,24 +115,27 @@ def petfunktion():
     wait(1)
 
 def retreattriggerfunktion():        
-    if Rsettings.exists(settings,0):        
-        Rsettings.click(settings)        
-        if not Rretreat.exists(retreat,1):            
+    if Rsettings.exists(settings,0):
+        try:        
             Rsettings.click(settings)        
-        if Rretreat.exists(retreat,1):
-            Rretreat.click(retreat)        
-        if not Ryes.exists(yes,1):            
-            Rretreat.click(retreat)        
-        wait(0.5)
-        if Ryes.exists(yes,1):
-            Ryes.click(yes)
-        if not Rmap.exists(mapsymbol,1) and Ryes.exists(yes,0):
-            try:
+            if not Rretreat.exists(retreat,1):            
+                Rsettings.click(settings)        
+            if Rretreat.exists(retreat,1):
+                Rretreat.click(retreat)        
+            if not Ryes.exists(yes,1):            
+                Rretreat.click(retreat)        
+            wait(0.5)
+            if Ryes.exists(yes,1):
                 Ryes.click(yes)
-            except FindFailed:
-                pass
-        global retreattrigger
-        retreattrigger = True
+            if not Rmap.exists(mapsymbol,1) and Ryes.exists(yes,0):
+                try:
+                    Ryes.click(yes)
+                except FindFailed:
+                    pass
+            global retreattrigger
+            retreattrigger = True
+        except FindFailed:
+            pass
 
 retreatet = False
 def retreatfunktion():
@@ -163,6 +166,8 @@ def retreatfunktion():
                 wait(0.4)
                 if Rcontinu.exists(continu,0):
                     Rcontinu.click()
+        if Rxzeichen.exists(xzeichen,0):
+                Rxzeichen.click(xzeichen)
         Rmiddle.click()
         if not Rxzeichen.exists(xzeichen,0):
             Rmiddle.click()
@@ -257,6 +262,10 @@ while(running):
             if machweiter:
                 retreattriggerfunktion()
             break
+    while True:
+        if not Rend.exists(endofbattle,0):
+                break
+        wait(0.2)
     retreatfunktion()
     if retreatet:
         continue
