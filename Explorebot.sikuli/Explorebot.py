@@ -1,5 +1,6 @@
-# Version 0.45
+# Version 0.46
 
+import copy
 Settings.MoveMouseDelay = 0.08
 Settings.MinSimilarity = 0.80
 Settings.WaitScanRate = 10
@@ -87,6 +88,108 @@ tobattle = "tobattle.png"
 retry = "retry.png"
 xzeichen = Pattern("xzeichen.png").similar(0.86)
 gnomebag = Pattern("gnomebag.png").similar(0.90)
+Rfeld = Region(480,80,960,960)
+rot = "rot.png"
+
+def befuellearray(bild,farbe):
+    Rfeld.findAll(bild)
+    mm = Rfeld.getLastMatches()
+    while mm.hasNext():
+        cord = mm.next().getTarget()
+        a[(cord.y-80)/120][(cord.x-480)/120]=farbe
+
+def teste2(b):
+    for y in range(n):
+        for x in range(n):
+            if b[y][x] == 1 and x < 6:
+                if b[y][x+1] == 1:
+                    if b[y][x+2] == 1:
+                        return 1
+            if b[y][x] == 1 and y < 6:
+                if b[y+1][x] == 1:
+                    if b[y+2][x] == 1:
+                        return 1
+            if b[y][x] == 1 and y > 1:
+                if b[y-1][x] == 1:
+                    if b[y-2][x] == 1:
+                        return 1
+            if b[y][x] == 1 and x > 1:
+                if b[y][x-1] == 1:
+                    if b[y][x-2] == 1:
+                        return 1
+
+def teste(x,y):
+    if runter(x,y) == 1:
+        return "runter"
+    if hoch(x,y) == 1:
+        return "hoch"
+    if rechts(x,y) == 1:
+        return "rechts"
+    if links(x,y) == 1:
+        return "links"
+
+def runter(x,y):
+    b = copy.deepcopy(a)
+    if y<7:
+        b[y][x]=0
+        temp = b[y+1][x]
+        b[y+1][x]=1
+        if teste2(b) == 1:
+            return 1
+#        b[y][x]=1
+#        b[y+1][x]=temp
+
+def hoch(x,y):
+    b = copy.deepcopy(a)
+    if y<0:
+        b[y][x]=0
+        b[y-1][x]=1
+        if teste2(b) == 1:
+            return 1
+
+
+def rechts(x,y):
+    b = copy.deepcopy(a)
+    if x<7:
+        b[y][x]=0
+        b[y][x+1]=1
+        if teste2(b) == 1:
+            return 1
+
+def links(x,y):
+    b = copy.deepcopy(a)
+    if x>0:
+        b[y][x]=0
+        b[y][x-1]=1
+        if teste2(b) == 1:
+            return 1
+
+def matchrot():
+    for y in range(n):
+        for x in range(n):
+            if a[y][x] == 1:
+                verschiebe = teste(x,y)
+                if verschiebe == "runter":
+                    click(Location(x*120+510,y*120+90))
+                    wait(0.2)
+                    click(Location(x*120+510,(y+1)*120+90))
+                    return
+                if verschiebe == "hoch":
+                    click(Location(x*120+510,y*120+90))
+                    wait(0.2)
+                    click(Location(x*120+510,(y-1)*120+90))
+                    return
+                if verschiebe == "rechts":
+                    click(Location(x*120+510,y*120+90))
+                    wait(0.2)
+                    click(Location((x+1)*120+510,y*120+90))
+                    return
+                if verschiebe == "links":
+                    click(Location(x*120+510,y*120+90))
+                    wait(0.2)
+                    click(Location((x-1)*120+510,y*120+90))
+                    return
+
 
 leveluptrigger = False
 def levelupfunktion():
@@ -145,6 +248,11 @@ def retreatfunktion():
     global tributabholen
     if retreattrigger:
         Rmap.exists(mapsymbol, 5)
+        if not Rmap.exists(mapsymbol, 0):        
+            type(Key.ESC)
+            Rmap.exists(mapsymbol, 5)
+            if not Rmap.exists(mapsymbol, 0):        
+                type(Key.ESC)
         if not Rmap.exists(mapsymbol, 0) and Rxzeichen.exists(xzeichen,0):
             Rxzeichen.click(xzeichen)    
         wait(0.2)
@@ -249,6 +357,13 @@ while(running):
                 if not Rcast.exists(cast,1):                                                   
                     Rsunbird2.click()                        
                 Rcast.click()
+                wait(2)
+                continue
+            if machweiter:
+                n = 8
+                a = [[0] * n for i in range(n)]
+                befuellearray(rot,1)
+                matchrot()
                 wait(2)
                 continue
 #            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
