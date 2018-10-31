@@ -1,4 +1,4 @@
-# Version 0.46
+# Version 0.47
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -165,6 +165,8 @@ def links(x,y):
             return 1
 
 def matchrot():
+    global gemacht
+    gemacht = 0
     for y in range(n):
         for x in range(n):
             if a[y][x] == 1:
@@ -173,23 +175,26 @@ def matchrot():
                     click(Location(x*120+510,y*120+90))
                     wait(0.2)
                     click(Location(x*120+510,(y+1)*120+90))
+                    gemacht = 1
                     return
-                if verschiebe == "hoch":
+                elif verschiebe == "hoch":
                     click(Location(x*120+510,y*120+90))
                     wait(0.2)
                     click(Location(x*120+510,(y-1)*120+90))
+                    gemacht = 1
                     return
-                if verschiebe == "rechts":
+                elif verschiebe == "rechts":
                     click(Location(x*120+510,y*120+90))
                     wait(0.2)
                     click(Location((x+1)*120+510,y*120+90))
+                    gemacht = 1
                     return
-                if verschiebe == "links":
+                elif verschiebe == "links":
                     click(Location(x*120+510,y*120+90))
                     wait(0.2)
                     click(Location((x-1)*120+510,y*120+90))
+                    gemacht = 1
                     return
-
 
 leveluptrigger = False
 def levelupfunktion():
@@ -364,15 +369,9 @@ while(running):
                 a = [[0] * n for i in range(n)]
                 befuellearray(rot,1)
                 matchrot()
-                wait(2)
-                continue
-#            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and machweiter:
-#                Rweapon.click()                    
-#                if not Rcast.exists(cast,1):                                                   
-#                    Rweapon.click()                        
-#                Rcast.click()
-#                wait(2)
-#                continue
+                if gemacht == 1:    
+                    wait(2)
+                    continue
             wait(1)
             if machweiter:
                 retreattriggerfunktion()
