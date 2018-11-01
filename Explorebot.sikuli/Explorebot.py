@@ -1,4 +1,4 @@
-# Version 0.48    
+# Version 0.49    
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -67,10 +67,11 @@ Rsilence = Region(151,54,80,72)
 Rsilencebomb = Region(150,288,79,609)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
-Rweapon = Region(165,834,307,239)
+Rweapon = Region(166,840,305,222)
 Rnervnicht = Region(167,15,4,3)
-weaponready2 = Pattern("weaponready2.png").similar(0.85)
-weaponready3 = Pattern("weaponready3.png").similar(0.85)
+weaponready = Pattern("weaponready.png").similar(0.94)
+weaponready2 = Pattern("weaponready2.png").similar(0.93)
+weaponready3 = Pattern("weaponready3.png").similar(0.93)
 silence = Pattern("silence.png").similar(0.92)
 mastery = "mastery.png"
 dismiss = "dismiss.png"
@@ -362,6 +363,13 @@ while(running):
                 Rsunbird2.click()                    
                 if not Rcast.exists(cast,1):                                                   
                     Rsunbird2.click()                        
+                Rcast.click()
+                wait(2)
+                continue
+            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilence.exists(silence,0) and machweiter:
+                Rweapon.click()                    
+                if not Rcast.exists(cast,1):                                                   
+                    Rweapon.click()                        
                 Rcast.click()
                 wait(2)
                 continue
