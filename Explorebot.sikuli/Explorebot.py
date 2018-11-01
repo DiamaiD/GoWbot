@@ -1,4 +1,4 @@
-# Version 0.50   
+# Version 0.51 
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -460,7 +460,7 @@ while(running):
             if Rplayagain.exists(playagain,2):
                 Rplayagain.click()
     schongestartet = False
-    if tributabholen > 45:
+    if tributabholen > 30:
         if Rbattlestart.exists(tobattle,1):
             type(Key.ESC)
             retreattrigger = True
