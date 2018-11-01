@@ -1,4 +1,4 @@
-# Version 0.47
+# Version 0.48    
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -90,6 +90,7 @@ xzeichen = Pattern("xzeichen.png").similar(0.86)
 gnomebag = Pattern("gnomebag.png").similar(0.90)
 Rfeld = Region(480,80,960,960)
 rot = "rot.png"
+lila = "lila.png"
 
 def befuellearray(bild,farbe):
     Rfeld.findAll(bild)
@@ -368,6 +369,14 @@ while(running):
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(rot,1)
+                matchrot()
+                if gemacht == 1:    
+                    wait(2)
+                    continue
+            if machweiter:
+                n = 8
+                a = [[0] * n for i in range(n)]
+                befuellearray(lila,1)
                 matchrot()
                 if gemacht == 1:    
                     wait(2)
