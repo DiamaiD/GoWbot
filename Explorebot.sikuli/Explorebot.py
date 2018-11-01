@@ -1,4 +1,4 @@
-# Version 0.49    
+# Version 0.50   
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -62,7 +62,7 @@ Rxzeichen = Region(1322,0,458,339)
 Rlevelup = Region(1023,963,23,28)
 Rmastery = Region(1519,316,266,508)
 Rlevelup2 = Region(1159,559,6,5)
-Renemy = Region(1390,28,150,1052)
+Renemy = Region(1426,25,336,1050)
 Rsilence = Region(151,54,80,72)
 Rsilencebomb = Region(150,288,79,609)
 Rdismiss = Region(1029,670,162,51)
@@ -88,10 +88,15 @@ mapsymbol = "mapsymbol.png"
 tobattle = "tobattle.png"
 retry = "retry.png"
 xzeichen = Pattern("xzeichen.png").similar(0.86)
-gnomebag = Pattern("gnomebag.png").similar(0.90)
+gnomebag = Pattern("gnomebag.png").similar(0.92)
+gnome = Pattern("gnome.png").similar(0.91)
+soulgnome = Pattern("soulgnome.png").similar(0.90)
+eventgnome = Pattern("eventnome.png").similar(0.89)
 Rfeld = Region(480,80,960,960)
 rot = "rot.png"
 lila = "lila.png"
+gruen = "gruen.png"
+blau = "blau.png"
 
 def befuellearray(bild,farbe):
     Rfeld.findAll(bild)
@@ -310,6 +315,18 @@ while(running):
         Rplayagain.click()
     try:
         Rfirstbomb.wait(bomb, 10)
+#        if Renemy.exists(gnomebag,0):
+#            while True:
+#                if Renemy.exists(eventgnome,0):
+#                    break
+#                if Renemy.exists(gnome,0) or Renemy.exists(soulgnome,0):
+#                    retreattriggerfunktion()
+#                    retreatfunktion()
+#                    if retreatet:
+#                        break
+#                wait(0.2)
+#            if retreatet:
+#                continue
     except FindFailed:
         while True:
             if Rerror.exists(retry,0):
@@ -385,6 +402,22 @@ while(running):
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(lila,1)
+                matchrot()
+                if gemacht == 1:    
+                    wait(2)
+                    continue
+            if machweiter:
+                n = 8
+                a = [[0] * n for i in range(n)]
+                befuellearray(gruen,1)
+                matchrot()
+                if gemacht == 1:    
+                    wait(2)
+                    continue
+            if machweiter:
+                n = 8
+                a = [[0] * n for i in range(n)]
+                befuellearray(blau,1)
                 matchrot()
                 if gemacht == 1:    
                     wait(2)
