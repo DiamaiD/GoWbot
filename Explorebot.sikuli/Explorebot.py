@@ -1,4 +1,4 @@
-# Version 0.51 
+# Version 0.52
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -65,6 +65,7 @@ Rlevelup2 = Region(1159,559,6,5)
 Renemy = Region(1426,25,336,1050)
 Rsilence = Region(151,54,80,72)
 Rsilencebomb = Region(150,288,79,609)
+Rsilenceweapon = Region(135,801,105,101)
 Rdismiss = Region(1029,670,162,51)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(166,840,305,222)
@@ -263,8 +264,12 @@ def retreatfunktion():
         if not Rmap.exists(mapsymbol, 0):        
             type(Key.ESC)
             Rmap.exists(mapsymbol, 5)
-            if not Rmap.exists(mapsymbol, 0):        
-                type(Key.ESC)
+            while True:
+                if not Rmap.exists(mapsymbol, 0):        
+                    type(Key.ESC)
+                    wait(3)
+                    continue
+                break
         if not Rmap.exists(mapsymbol, 0) and Rxzeichen.exists(xzeichen,0):
             Rxzeichen.click(xzeichen)    
         wait(0.2)
@@ -383,7 +388,7 @@ while(running):
                 Rcast.click()
                 wait(2)
                 continue
-            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilence.exists(silence,0) and machweiter:
+            if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilenceweapon.exists(silence,0) and machweiter:
                 Rweapon.click()                    
                 if not Rcast.exists(cast,1):                                                   
                     Rweapon.click()                        
