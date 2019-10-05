@@ -1,4 +1,4 @@
-# Version 0.54
+# Version 0.55
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -481,6 +481,8 @@ while(running):
             wait(0.5)
             if machweiter:
                 retreattriggerfunktion()
+            break
+        if not Rsettings.exists(settings,0):
             break
     wait(0.2)
     retreatfunktion()
