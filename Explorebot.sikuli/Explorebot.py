@@ -1,4 +1,4 @@
-# Version 0.52
+# Version 0.54
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -17,7 +17,7 @@ Env.addHotkey(Key.F1, KeyModifier.CTRL, runHotkey)
 Rkingdom = Region(1250,414,5,3)
 Rbattlestart = Region(854,987,212,62)
 Rfirstbomb = Region(155,319,333,251)
-Rcast = Region(903,919,116,59)
+Rcast = Region(894,918,134,68)
 Rmyturn = Region(286,0,62,107)
 Rmydeck = Region(164,53,312,1021)
 Rendold = Region(945,525,30,32)
@@ -25,8 +25,8 @@ Rend = Region(831,776,49,31)
 Rskip = Region(893,968,131,70)
 Rskip2 = Region(687,821,541,256)
 Rsettings = Region(1821,11,87,86)
-Rretreat = Region(877,1006,164,50)
-Ryes = Region(1104,663,116,62)
+Rretreat = Region(873,1002,173,56)
+Ryes = Region(1110,668,98,53)
 Rtribut = Region(847,884,215,191)
 tribut = Pattern("tribut.png").similar(0.80)
 Rcontinu = Region(343,817,1205,253)
@@ -85,10 +85,10 @@ gloryzeichen = Pattern("gloryzeichen.png").similar(0.85)
 playagain = "playagain.png"
 skip = "skip.png"
 settings = "settings.png"
-retreat = "retreat.png"
-yes = "yes.png"
-cast = "cast.png"
-greycast = "greycast.png"
+retreat = Pattern("retreat.png").similar(0.85)
+yes = Pattern("yes.png").similar(0.82)
+cast = Pattern("cast.png").similar(0.85)
+greycast = Pattern("greycast.png").similar(0.86)
 mapsymbol = "mapsymbol.png"
 tobattle = "tobattle.png"
 retry = "retry.png"
@@ -239,27 +239,38 @@ def petfunktion():
     
 def sanitycheck():
     global machweiter
+    if Rcast.exists(cast,0) or Rcast.exists(greycast,0):
+        wait(0.1)
+        Rnervnicht.click()
+        return
+    if Renemyturn.exists(startIndicator,0):
+        Renemyturn.waitVanish(startIndicator,10)
     if Rsettings.exists(settings,0):
         try:
             Rsettings.click(settings)
             if not Rretreat.exists(retreat,1):       
                 machweiter = False
             else:
-                Rsettings.click()
-        except FindFailed:
-            pass
+                Rnervnicht.click()
+        except FindFailed: 
+            machweiter = False 
     else:
         machweiter = False
     
-def retreattriggerfunktion():        
+def retreattriggerfunktion():
+    global machweiter
     if Rsettings.exists(settings,0):
         try:        
-            Rsettings.click(settings)        
-            if not Rretreat.exists(retreat,1):            
-                Rsettings.click(settings)        
+            Rsettings.click(settings) 
+            if not Rretreat.exists(retreat,1): 
+                wait(0.3)
+                Rsettings.click(settings) 
+            wait(0.3)
             if Rretreat.exists(retreat,1):
-                Rretreat.click(retreat)        
-            if not Ryes.exists(yes,1):            
+                wait(0.3)
+                Rretreat.click(retreat)
+            if not Ryes.exists(yes,1): 
+                wait(0.3)
                 Rretreat.click(retreat)        
             wait(0.5)
             if Ryes.exists(yes,1):
@@ -272,7 +283,7 @@ def retreattriggerfunktion():
             global retreattrigger
             retreattrigger = True
         except FindFailed:
-            pass
+            machweiter = False
 
 retreatet = False
 def retreatfunktion():
@@ -372,50 +383,65 @@ while(running):
         machweiter = True
     silenced = False
     while machweiter:
-        if Rmyturn.exists(startIndicator,0) and not Renemyturn.exists(startIndicator,0) and machweiter:
+        if Rcast.exists(greycast,0):
+            Rnervnicht.click()
+            wait(0.1)
+            continue
+        if Rcast.exists(cast,0):
+            Rcast.click()
+            wait(0.1)
+            if Rcast.exists(cast,0):
+                Rcast.click()
+            wait(2.5) 
+            continue
+        if Rmyturn.exists(startIndicator,0) and not Renemyturn.exists(startIndicator,0):
             if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
-                if Rend.exists(endofbattle,0):
-                    break
-                Rsunbird3.click()                    
-                if not Rcast.exists(cast,0.3):
+                Rsunbird3.click()
+                if not Rcast.exists(cast,0.2):
                     #wait(0.2)
                     if Rcast.exists(greycast,0.2):
-                        #wait(1)
+                        wait(0.1)
                         Rnervnicht.click()
                         Rnervnicht.click()
                         wait(0.1)
                         continue
                     #wait(0.1)
-                    Rsunbird2.click()                        
+                    Rsunbird2.click()
                 Rcast.click()
+                wait(0.1)
+                if Rcast.exists(cast,0):
+                    Rcast.click()
                 wait(2.5)
                 continue
-            if Rmydeck.exists(bomb,0) and machweiter and not Rsilencebomb.exists(silence,0):
-                if machweiter:
-                    try:
+            if Rmydeck.exists(bomb,0) and not Rsilencebomb.exists(silence,0) and machweiter:
+                try:
+                    Rmydeck.click(bomb)
+                    if not Rcast.exists(cast,0.2):
+                        #wait(0.2)
+                        if Rcast.exists(greycast,0.2):
+                            wait(0.1)
+                            Rnervnicht.click()
+                            Rnervnicht.click()
+                            wait(0.1)
+                            continue
+                        else:
+                            machweiter = False
+                            break
                         Rmydeck.click(bomb)
-#                        if Rwinbiatch.exists(winbiatch,0.3):
-#                            machweiter = False
-#                            break
-                        if not Rcast.exists(cast,0.3):
-                            #wait(0.2)
-                            if Rcast.exists(greycast,0.2):
-                                #wait(0.1)
-                                Rnervnicht.click()
-                                Rnervnicht.click()
-                                wait(0.1)
-                                continue
-                            else:
-                                machweiter = False
-                                break
-                            Rmydeck.click(bomb)
-                        #wait(0.1)
+                    Rcast.click()
+                    wait(0.1)
+                    if Rcast.exists(cast,0):
                         Rcast.click()
-                        wait(2.5)
+                    wait(2.5)
+                    continue
+                except FindFailed:
+                    if Rcast.exists(greycast,0.1):
+                        Rnervnicht.click()
+                        Rnervnicht.click()
+                        wait(0.1)
                         continue
-                    except FindFailed:
-                        continue
-            if not machweiter:
+                    continue
+            if not Rsettings.exists(settings,0):
                 break
             if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
                 Rsunbird2.click()                    
@@ -424,6 +450,8 @@ while(running):
                 Rcast.click()
                 wait(2)
                 continue
+            if not Rsettings.exists(settings,0):
+                break
             if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilenceweapon.exists(silence,0) and machweiter:
                 Rweapon.click()                    
                 if not Rcast.exists(cast,1):                                                   
@@ -431,6 +459,8 @@ while(running):
                 Rcast.click()
                 wait(2)
                 continue
+            if not Rsettings.exists(settings,0):
+                break
             sanitycheck()
             if machweiter:
                 n = 8
@@ -440,7 +470,6 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue
-            sanitycheck()
             if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
@@ -448,31 +477,12 @@ while(running):
                 matchrot()
                 if gemacht == 1:    
                     wait(2)
-                    continue
-#            if machweiter:
-                n = 8
-                a = [[0] * n for i in range(n)]
-                befuellearray(gruen,1)
-                matchrot()
-                if gemacht == 1:    
-                    wait(2)
-                    continue
-#            if machweiter:
-                n = 8
-                a = [[0] * n for i in range(n)]
-                befuellearray(blau,1)
-                matchrot()
-                if gemacht == 1:    
-                    wait(2)
-                    continue
-            wait(1)
+                    continue 
+            wait(0.5)
             if machweiter:
                 retreattriggerfunktion()
             break
-    while True:
-        if not Rend.exists(endofbattle,0):
-                break
-        wait(0.2)
+    wait(0.2)
     retreatfunktion()
     if retreatet:
         continue
