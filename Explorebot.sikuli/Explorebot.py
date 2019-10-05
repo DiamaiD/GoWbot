@@ -1,4 +1,4 @@
-# Version 0.57
+# Version 0.58
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -332,6 +332,8 @@ def retreatfunktion():
         Rkingdom.click()
         if Rxzeichen.exists(xzeichen,0):
             Rkingdom.click()
+            wait(0.3)
+            Rkingdom.click()
         wait(0.3)
         tributabholen = 0
         retreattrigger = False
@@ -486,22 +488,23 @@ while(running):
             continue
         else:
             break
-    wait(0.2)
+#    wait(0.2)
     retreatfunktion()
     if retreatet:
         continue
     if not running:
         break
-    try:
-        Rskip.wait(skip, 5)
-    except FindFailed:
-        while True:
-            if Rerror.exists(retry,0):
-                Rerror.click(retry)
-            if Rskip.exists(skip,0):
-                break
-            if Rplayagain.exists(playagain,0):
-                break
+    if not Rplayagain.exists(playagain,0):
+        try:
+            Rskip.wait(skip, 5)
+        except FindFailed:
+            while True:
+                if Rerror.exists(retry,0):
+                    Rerror.click(retry)
+                if Rskip.exists(skip,0):
+                    break
+                if Rplayagain.exists(playagain,0):
+                    break
     if Rskip.exists(skip,0):
         Rskip.click()
         wait(0.1)
