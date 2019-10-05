@@ -1,4 +1,4 @@
-# Version 0.58
+# Version 0.59
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -304,25 +304,29 @@ def retreatfunktion():
                 break
         if not Rmap.exists(mapsymbol, 0) and Rxzeichen.exists(xzeichen,0):
             Rxzeichen.click(xzeichen)    
-        wait(0.2)
+        wait(0.4)
         while True:
-            if Rxzeichen.exists(xzeichen,0):
+            if Rxzeichen.exists(xzeichen,0.2):
                 Rxzeichen.click(xzeichen)
             if not Rend.exists(endofbattle,0) and not Rxzeichen.exists(xzeichen,0):
                 break
-            wait(0.2)
-        if Rtribut.exists(tribut,1):
-            Rtribut.click()
-            if Rskip2.exists(skip,10):
-                Rskip.click()
-                wait(0.4)
-                if Rskip2.exists(skip,0):
-                    Rskip.click() 
-            if Rcontinu.exists(continu,10):
-                Rcontinu.click()
-                wait(0.4)
-                if Rcontinu.exists(continu,0):
+        while True:
+            if Rtribut.exists(tribut,1):
+                Rtribut.click()
+                if Rskip2.exists(skip,10):
+                    Rskip.click()
+                    wait(0.4)
+                    if Rskip2.exists(skip,0):
+                        Rskip.click() 
+                if Rcontinu.exists(continu,10):
                     Rcontinu.click()
+                    wait(0.8)
+                    if Rcontinu.exists(continu,0):
+                        Rcontinu.click()
+            if not Rxzeichen.exists(xzeichen,0.2):
+                Rmiddle.click()
+            else:
+                break
         if Rxzeichen.exists(xzeichen,0):
                 Rxzeichen.click(xzeichen)
         Rmiddle.click()
@@ -464,6 +468,7 @@ while(running):
             if not Rsettings.exists(settings,0):
                 break
             sanitycheck()
+            wait(0.2)
             if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
