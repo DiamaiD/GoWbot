@@ -20,11 +20,12 @@ Rfirstbomb = Region(155,319,333,251)
 Rcast = Region(903,919,116,59)
 Rmyturn = Region(286,0,62,107)
 Rmydeck = Region(164,53,312,1021)
-Rend = Region(945,525,30,32)
+Rendold = Region(945,525,30,32)
+Rend = Region(831,776,49,31)
 Rskip = Region(893,968,131,70)
 Rskip2 = Region(687,821,541,256)
 Rsettings = Region(1821,11,87,86)
-Rretreat = Region(730,752,451,118)
+Rretreat = Region(877,1006,164,50)
 Ryes = Region(1104,663,116,62)
 Rtribut = Region(847,884,215,191)
 tribut = Pattern("tribut.png").similar(0.80)
@@ -48,7 +49,10 @@ sunbirdreadyent = "sunbirdreadyent.png"
 sunbirdreadyweb = "sunbirdreadyweb.png"
 sunbirdreadymark = Pattern("sunbirdreadymark.png").similar(0.75)
 sunbirdreadydeath = Pattern("sunbirdreadydeath.png").similar(0.75)
-endofbattle = Pattern("endofbattle.png").similar(0.95)
+endofbattleold = Pattern("endofbattle.png").similar(0.95)
+endofbattle = "endofbattle.png"
+winbiatch = "winbiatch.png"
+Rwinbiatch = Region(818,820,70,80)
 Rplayagain = Region(1222,972,248,70)
 Rmap =Region(5,305,94,82)
 Rmiddle = Region(955,534,3,3)
@@ -83,8 +87,8 @@ skip = "skip.png"
 settings = "settings.png"
 retreat = "retreat.png"
 yes = "yes.png"
-cast = Pattern("cast.png").exact()
-greycast = Pattern("greycast.png").exact()
+cast = "cast.png"
+greycast = "greycast.png"
 mapsymbol = "mapsymbol.png"
 tobattle = "tobattle.png"
 retry = "retry.png"
@@ -100,7 +104,10 @@ gruen = "gruen.png"
 blau = "blau.png"
 
 def befuellearray(bild,farbe):
-    Rfeld.findAll(bild)
+    try:
+        Rfeld.findAll(bild)
+    except FindFailed:
+        return
     mm = Rfeld.getLastMatches()
     while mm.hasNext():
         cord = mm.next().getTarget()
@@ -222,14 +229,28 @@ def endfunktion(event):
     wait(7)
     event.repeat()
 
-Rend.onAppear(endofbattle, endfunktion)
-Rend.observeInBackground(FOREVER)
+#Rend.onAppear(endofbattle, endfunktion)
+#Rend.observeInBackground(FOREVER)
 
 def petfunktion():
     Rdismiss.wait(dismiss, FOREVER)
     Rdismiss.click(dismiss)
     wait(1)
-
+    
+def sanitycheck():
+    global machweiter
+    if Rsettings.exists(settings,0):
+        try:
+            Rsettings.click(settings)
+            if not Rretreat.exists(retreat,1):       
+                machweiter = False
+            else:
+                Rsettings.click()
+        except FindFailed:
+            pass
+    else:
+        machweiter = False
+    
 def retreattriggerfunktion():        
     if Rsettings.exists(settings,0):
         try:        
@@ -297,7 +318,9 @@ def retreatfunktion():
         if not Rxzeichen.exists(xzeichen,0):
             Rmiddle.click()
         wait(0.3)
-        Rkingdom.click()                
+        Rkingdom.click()
+        if Rxzeichen.exists(xzeichen,0):
+            Rkingdom.click()
         wait(0.3)
         tributabholen = 0
         retreattrigger = False
@@ -306,7 +329,7 @@ def retreatfunktion():
 
 
 Rmiddle.click()
-wait(0.3)
+wait(0.8)
 Rkingdom.click()
 wait(0.3)
 schongestartet = False
@@ -340,6 +363,7 @@ while(running):
                 break
     Renemyturn.waitVanish(startIndicator,5)
     Rfirstbomb.click()
+    wait(0.1)
     if not Rcast.exists(cast,1):
         Rfirstbomb.click()
     Rcast.click()
@@ -354,11 +378,14 @@ while(running):
                     break
                 Rsunbird3.click()                    
                 if not Rcast.exists(cast,0.3):
-                    if Rcast.exists(greycast,0):
+                    #wait(0.2)
+                    if Rcast.exists(greycast,0.2):
+                        #wait(1)
                         Rnervnicht.click()
                         Rnervnicht.click()
                         wait(0.1)
                         continue
+                    #wait(0.1)
                     Rsunbird2.click()                        
                 Rcast.click()
                 wait(2.5)
@@ -367,13 +394,22 @@ while(running):
                 if machweiter:
                     try:
                         Rmydeck.click(bomb)
+#                        if Rwinbiatch.exists(winbiatch,0.3):
+#                            machweiter = False
+#                            break
                         if not Rcast.exists(cast,0.3):
-                            if Rcast.exists(greycast,0):
+                            #wait(0.2)
+                            if Rcast.exists(greycast,0.2):
+                                #wait(0.1)
                                 Rnervnicht.click()
                                 Rnervnicht.click()
                                 wait(0.1)
                                 continue
+                            else:
+                                machweiter = False
+                                break
                             Rmydeck.click(bomb)
+                        #wait(0.1)
                         Rcast.click()
                         wait(2.5)
                         continue
@@ -395,6 +431,7 @@ while(running):
                 Rcast.click()
                 wait(2)
                 continue
+            sanitycheck()
             if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
@@ -403,6 +440,7 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue
+            sanitycheck()
             if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
@@ -411,7 +449,7 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue
-            if machweiter:
+#            if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(gruen,1)
@@ -419,7 +457,7 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue
-            if machweiter:
+#            if machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(blau,1)
