@@ -70,7 +70,7 @@ Renemy = Region(1426,25,336,1050)
 Rsilence = Region(151,54,80,72)
 Rsilencebomb = Region(150,288,79,609)
 Rsilenceweapon = Region(135,801,105,101)
-Rdismiss = Region(1029,670,162,51)
+Rdismiss = Region(1052,683,187,62)
 Renemyturn = Region(1576,0,50,112)
 Rweapon = Region(166,840,305,222)
 Rnervnicht = Region(167,15,4,3)
@@ -482,6 +482,17 @@ while(running):
             if machweiter:
                 retreattriggerfunktion()
             break
+        if Rcast.exists(greycast,0):
+            Rnervnicht.click()
+            wait(0.1)
+            continue
+        if Rcast.exists(cast,0):
+            Rcast.click()
+            wait(0.1)
+            if Rcast.exists(cast,0):
+                Rcast.click()
+            wait(2.5) 
+            continue
         if not Rsettings.exists(settings,0):
             break
     wait(0.2)
