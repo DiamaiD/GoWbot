@@ -1,4 +1,4 @@
-# Version 0.55
+# Version 0.57
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -482,18 +482,9 @@ while(running):
             if machweiter:
                 retreattriggerfunktion()
             break
-        if Rcast.exists(greycast,0):
-            Rnervnicht.click()
-            wait(0.1)
+        if Rsettings.exists(settings,0.4):
             continue
-        if Rcast.exists(cast,0):
-            Rcast.click()
-            wait(0.1)
-            if Rcast.exists(cast,0):
-                Rcast.click()
-            wait(2.5) 
-            continue
-        if not Rsettings.exists(settings,0):
+        else:
             break
     wait(0.2)
     retreatfunktion()
