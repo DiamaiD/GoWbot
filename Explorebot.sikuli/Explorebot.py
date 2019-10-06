@@ -1,4 +1,4 @@
-# Version 0.60
+# Version 0.61
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -367,21 +367,21 @@ def castbomb():
     if Rmydeck.exists(bomb,0) and not Rsilencebomb.exists(silence,0) and machweiter:
         try:
             Rmydeck.click(bomb)
+            wait(0.1)
             Rcast.click()
             wait(0.1)
             if Rcast.exists(cast,0):
                 Rcast.click()
             if not Rcast.exists(cast,0) and not Rcast.exists(greycast,0):
-                Rmyturn.waitVanish(startIndicator,3)
-            return True
-        except FindFailed:
-            if Rcast.exists(greycast,0.1):
+                Rmyturn.waitVanish(startIndicator,3)           
+            if Rcast.exists(greycast,0):
                 Rnervnicht.click()
                 Rnervnicht.click()
                 wait(0.1)
-                return True
             return True
-        return False
+        except FindFailed:
+            return True
+    return False
 
 def castweapon():
     if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilenceweapon.exists(silence,0) and machweiter:
@@ -390,6 +390,7 @@ def castweapon():
             Rweapon.click()
         try:
             Rcast.click(cast)
+            wait(0.1)
             if not Rcast.exists(cast,0) and not Rcast.exists(greycast,0):
                 Rmyturn.waitVanish(startIndicator,3) 
             return True
@@ -427,6 +428,11 @@ while(running):
         if Renemyturn.exists(startIndicator,0):
             Renemyturn.waitVanish(startIndicator,5)
         if Rmyturn.exists(startIndicator,0):
+            if Rcast.exists(greycast,0):
+                Rnervnicht.click()
+                Rnervnicht.click()
+                wait(0.1)
+                continue
             if castsunbird():
                 continue
             if castbomb():
