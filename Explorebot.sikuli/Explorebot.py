@@ -1,4 +1,4 @@
-# Version 0.62
+# Version 0.63
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -476,6 +476,7 @@ while(running):
             #sanitycheck()
             if incombat and machweiter:
                 retreattriggerfunktion()
+                break
         if not incombat or Rskip.exists(skip,0) or Rplayagain.exists(playagain,0):
             break
         else:
