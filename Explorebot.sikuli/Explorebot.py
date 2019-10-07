@@ -1,4 +1,4 @@
-# Version 0.61
+# Version 0.62
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -62,7 +62,7 @@ Rsunbird3 = Region(426,219,33,26)
 Rsunbird4 = Region(404,77,62,54)
 Rerror = Region(808,631,306,125)
 Rneunuhr = Region(225,321,358,283)
-Rxzeichen = Region(1322,0,458,339)
+Rxzeichen = Region(1192,0,578,277)
 Rlevelup = Region(1023,963,23,28)
 Rmastery = Region(1519,316,266,508)
 Rlevelup2 = Region(1159,559,6,5)
@@ -316,20 +316,13 @@ def retreatfunktion():
                 if Rskip2.exists(skip,10):
                     Rskip.click()
                     wait(0.4)
-                    if Rskip2.exists(skip,0):
-                        Rskip.click() 
                 if Rcontinu.exists(continu,10):
                     Rcontinu.click()
-                    wait(0.8)
-                    if Rcontinu.exists(continu,0):
-                        Rcontinu.click()
+                    wait(1)
             if not Rxzeichen.exists(xzeichen,0.2):
                 Rmiddle.click()
             else:
                 break
-        if Rxzeichen.exists(xzeichen,0):
-                Rxzeichen.click(xzeichen)
-        Rmiddle.click()
         if not Rxzeichen.exists(xzeichen,0):
             Rmiddle.click()
         wait(0.3)
@@ -345,7 +338,7 @@ def retreatfunktion():
         retreatet = True
 
 def castsunbird():
-    if (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
+    if incombat and (Rsunbird2.exists(sunbirdready2,0) or Rsunbird3.exists(sunbirdready3,0) or Rsunbird4.exists(sunbirdready4,0)) and not Rsilence.exists(silence,0) and machweiter:
         Rsunbird3.click()
         wait(0.1)
         if Rcast.exists(cast,0):
@@ -364,7 +357,7 @@ def castsunbird():
     return False
 
 def castbomb():
-    if Rmydeck.exists(bomb,0) and not Rsilencebomb.exists(silence,0) and machweiter:
+    if incombat and Rmydeck.exists(bomb,0) and not Rsilencebomb.exists(silence,0) and machweiter:
         try:
             Rmydeck.click(bomb)
             wait(0.1)
@@ -384,7 +377,7 @@ def castbomb():
     return False
 
 def castweapon():
-    if (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilenceweapon.exists(silence,0) and machweiter:
+    if incombat and (Rweapon.exists(weaponready,0) or Rweapon.exists(weaponready2,0) or Rweapon.exists(weaponready3,0)) and not Rsilenceweapon.exists(silence,0) and machweiter:
         Rweapon.click()                    
         if not Rcast.exists(cast,0.2):                                                   
             Rweapon.click()
@@ -401,12 +394,23 @@ def castweapon():
             return True
     return False
 
+def failsafe(event):
+    global incombat
+    Rsettings.waitVanish(settings,FOREVER)
+    if not Rsettings.exists(settings,0):
+        incombat = False
+    event.repeat
+
+#Rsettings.onAppear(settings, failsafe)
+#Rsettings.observeInBackground(FOREVER)
+
 Rmiddle.click()
 wait(0.8)
 Rkingdom.click()
 wait(0.3)
 schongestartet = False
 tributabholen = 0
+incombat = False
 while(running):
     tributabholen += 1
     retreatet = False
@@ -423,8 +427,9 @@ while(running):
             if Rfirstbomb.exists(bomb,0):
                 break
     silenced = False
+    incombat = True
 # ingame Loop
-    while machweiter:
+    while machweiter and incombat:
         if Renemyturn.exists(startIndicator,0):
             Renemyturn.waitVanish(startIndicator,5)
         if Rmyturn.exists(startIndicator,0):
@@ -433,6 +438,12 @@ while(running):
                 Rnervnicht.click()
                 wait(0.1)
                 continue
+            if Rcast.exists(cast,0):
+                try:
+                    Rcast.click(cast)
+                    continue
+                except FindFailed:
+                    continue
             if castsunbird():
                 continue
             if castbomb():
@@ -445,7 +456,8 @@ while(running):
                 continue
             if Rskip.exists(skip,0) or Rplayagain.exists(playagain,0):
                 break
-            if machweiter:
+            #wait(0.3)
+            if incombat and machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(rot,1)
@@ -453,7 +465,7 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue
-            if machweiter:
+            if incombat and machweiter:
                 n = 8
                 a = [[0] * n for i in range(n)]
                 befuellearray(lila,1)
@@ -461,15 +473,13 @@ while(running):
                 if gemacht == 1:    
                     wait(2)
                     continue 
-            sanitycheck()
-            if machweiter:
+            #sanitycheck()
+            if incombat and machweiter:
                 retreattriggerfunktion()
-            break
-        if Rskip.exists(skip,0) or Rplayagain.exists(playagain,0):
+        if not incombat or Rskip.exists(skip,0) or Rplayagain.exists(playagain,0):
             break
         else:
             continue
-#    wait(0.2)
     retreatfunktion()
     if retreatet:
         continue
