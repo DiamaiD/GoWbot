@@ -1,4 +1,4 @@
-# Version 0.64
+# Version 0.65
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -333,6 +333,21 @@ def retreatfunktion():
             wait(0.3)
             Rkingdom.click()
         wait(0.3)
+        if not Rbattlestart.exists(tobattle,0):
+            while True:
+                if Rmap.exists(mapsymbol,0):
+                    Rmiddle.click()
+                    wait(0.3)
+                    Rkingdom.click()
+                    wait(0.3)
+                    Rkingdom.click()
+                    wait(0.3)
+                    continue
+                if Rxzeichen.exists(xzeichen,0):
+                    Rxzeichen.click()
+                    wait(0.3)
+                if Rbattlestart.exists(tobattle,0):
+                    break 
         tributabholen = 0
         retreattrigger = False
         schongestartet = False
