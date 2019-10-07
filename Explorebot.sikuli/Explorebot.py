@@ -1,4 +1,4 @@
-# Version 0.63
+# Version 0.64
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -313,12 +313,13 @@ def retreatfunktion():
         while True:
             if Rtribut.exists(tribut,1):
                 Rtribut.click()
-                if Rskip2.exists(skip,10):
+                if Rskip2.exists(skip,5):
                     Rskip.click()
                     wait(0.4)
-                if Rcontinu.exists(continu,10):
+                if Rcontinu.exists(continu,5):
                     Rcontinu.click()
                     wait(1)
+                continue
             if not Rxzeichen.exists(xzeichen,0.2):
                 Rmiddle.click()
             else:
