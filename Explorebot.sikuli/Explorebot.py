@@ -1,4 +1,4 @@
-# Version 0.65
+# Version 0.66
 
 import copy
 Settings.MoveMouseDelay = 0.08
@@ -367,7 +367,7 @@ def castsunbird():
         wait(0.1)
         if Rcast.exists(cast,0):
             Rcast.click()
-        if not Rcast.exists(cast,0) and not Rcast.exists(greycast,0):
+        if not Rcast.exists(cast,0.1) and not Rcast.exists(greycast,0.1):
             Rmyturn.waitVanish(startIndicator,5)
         return True
     return False
@@ -381,7 +381,7 @@ def castbomb():
             wait(0.1)
             if Rcast.exists(cast,0):
                 Rcast.click()
-            if not Rcast.exists(cast,0) and not Rcast.exists(greycast,0):
+            if not Rcast.exists(cast,0.2) and not Rcast.exists(greycast,0.2):
                 Rmyturn.waitVanish(startIndicator,3)           
             if Rcast.exists(greycast,0):
                 Rnervnicht.click()
@@ -400,7 +400,7 @@ def castweapon():
         try:
             Rcast.click(cast)
             wait(0.1)
-            if not Rcast.exists(cast,0) and not Rcast.exists(greycast,0):
+            if not Rcast.exists(cast,0.2) and not Rcast.exists(greycast,0.2):
                 Rmyturn.waitVanish(startIndicator,3) 
             return True
         except FindFailed:
